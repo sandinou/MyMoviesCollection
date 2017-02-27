@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group>
+        <item android:title="@string/edit"
+            android:id="@+id/editItem" />
+        <item android:title="@string/share"
+            android:id="@+id/shareItem" />
+        <item android:title="@string/delete"
+            android:id="@+id/deleteItem" />
+    </group>
+</menu>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:title="@string/edit"
+        android:id="@+id/editItem"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/crayon" />
+
+    <item android:title="@string/delete"
+        android:id="@+id/deleteItem"
+        android:icon="@drawable/delete1"
+        app:showAsAction="ifRoom" />
+    <item android:title="@string/share"
+        android:id="@+id/shareItem"
+        android:icon="?attr/actionModeShareDrawable"
+        app:showAsAction="ifRoom" />
+</menu>

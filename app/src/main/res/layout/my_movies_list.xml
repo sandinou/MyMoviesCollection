@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:weightSum="2"
+        android:background="#ffffff">
+
+        <ImageView
+            android:id="@+id/posterIV"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/movie_s_poster"
+            app:srcCompat="@drawable/movies_icon"
+            android:layout_width="0dp"
+            android:layout_weight="0.4" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.6"
+            android:weightSum="2.5">
+
+            <TextView
+                android:text="@string/movie_title"
+                android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/titleTV"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1.3"
+                    android:gravity="top|start"
+                android:paddingStart="10dp" />
+
+            <TextView
+                    android:text="@string/genre"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/genreTV"
+                    android:layout_weight="0.5"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:gravity="top|start"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp" />
+
+            <TextView
+                    android:text="@string/year"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/yearTV"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"
+                    android:gravity="top|start"
+                    android:layout_weight="0.5"
+                    android:paddingEnd="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingStart="10dp"
+                android:layout_marginBottom="7dp" />
+            <View
+                android:layout_width="match_parent"
+                android:src="@android:drawable/divider_horizontal_bright"
+                android:background="@android:color/black"
+                android:layout_height="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:id="@+id/view" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
