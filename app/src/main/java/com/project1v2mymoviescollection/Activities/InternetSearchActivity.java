@@ -55,7 +55,7 @@ public class InternetSearchActivity extends AppCompatActivity {
 
         adapter = new InternetMovieAdapter(this,R.layout.internet_my_list_item);
 
-        searchET.addTextChangedListener(new TextWatcher() {
+        /*searchET.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -72,7 +72,7 @@ public class InternetSearchActivity extends AppCompatActivity {
                 }
                 else
                     adapter.clear();*/
-            }
+            /*}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -83,7 +83,7 @@ public class InternetSearchActivity extends AppCompatActivity {
                 //if (t.trim().equals(""))
                   //  Toast.makeText(InternetSearchActivity.this, "Enter title !!", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -29,17 +29,18 @@
             android:inputType="text"
             android:hint="@string/enter_movie_name"
             android:layout_weight="2"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_gravity="center" />
 
         <ImageButton
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             app:srcCompat="@drawable/internet_search"
             android:id="@+id/searchBtn"
             android:layout_weight="0.5"
             android:background="@android:drawable/screen_background_light_transparent"
             android:contentDescription="@string/search_image"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter"
+            android:layout_height="100dp" />
 
     </LinearLayout>
 

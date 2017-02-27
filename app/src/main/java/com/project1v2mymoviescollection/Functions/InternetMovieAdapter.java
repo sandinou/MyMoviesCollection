@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.project1v2mymoviescollection.Activities.InternetSearchActivity;
 import com.project1v2mymoviescollection.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 
@@ -59,7 +60,8 @@ public class InternetMovieAdapter extends ArrayAdapter<MyMovie> {
         if (movie.getPoster().equals("N/A"))
             image.setImageResource(R.drawable.movies_icon);
         else
-            new DownloadImage(image).execute(movie.getPoster());
+            Picasso.with(getContext()).load(movie.getPoster()).into(image);
+            //new DownloadImage(image).execute(movie.getPoster());
     }
 
 

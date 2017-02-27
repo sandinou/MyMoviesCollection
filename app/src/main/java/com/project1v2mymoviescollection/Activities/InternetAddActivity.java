@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.project1v2mymoviescollection.Constants.And.SQL.MyMoviesSQLHelper;
 import com.project1v2mymoviescollection.Functions.Functions;
 import com.project1v2mymoviescollection.R;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -212,6 +213,7 @@ public class InternetAddActivity extends AppCompatActivity {
                 else {
                     url.setText(resultJSON.get(7).toString());
                     new DownloadImage().execute(url.getText().toString());
+                    //Picasso.with(InternetAddActivity.this).load(url.getText().toString()).into(image);
                 }
                 genre = resultJSON.get(8).toString();
 
