@@ -34,12 +34,12 @@
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/search"
+            app:srcCompat="@drawable/internet_search"
             android:id="@+id/searchBtn"
             android:layout_weight="0.5"
-            android:scaleType="fitCenter"
             android:background="@android:drawable/screen_background_light_transparent"
-            android:contentDescription="@string/search_image" />
+            android:contentDescription="@string/search_image"
+            android:scaleType="centerCrop" />
 
     </LinearLayout>
 
