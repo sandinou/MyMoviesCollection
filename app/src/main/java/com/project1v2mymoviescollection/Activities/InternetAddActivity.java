@@ -49,7 +49,7 @@ public class InternetAddActivity extends AppCompatActivity {
     private Bitmap poster;
     private ImageView image;
     private MyMoviesSQLHelper myMoviesSQLHelper;
-    private int currentPosition = 0;
+    private int currentPosition = 0, year;
 
 
     @Override
@@ -239,7 +239,10 @@ public class InternetAddActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.saveItem:
                 String[] d = releaseDate.getText().toString().split(" ");
-                int year = Integer.parseInt(d[2]);
+               // int year = Integer.parseInt(d[2]);
+                if (d.length==3)
+                    year = Integer.parseInt(d[2]);
+                else year=0;
                 myMoviesSQLHelper.save(InternetAddActivity.this,id,title.getText().toString(),releaseDate.getText().toString(),year,runtime.getText().toString(),director.getText().toString(),writer.getText().toString(),genre,actors.getText().toString(),storyLine.getText().toString(),url.getText().toString(),imageString,imdbID);
                 break;
 
@@ -280,17 +283,18 @@ public class InternetAddActivity extends AppCompatActivity {
         @Override
         public void onPostExecute(Bitmap result) {
             // Set the bitmap into ImageView
-            if (result!=null) {
+            if (result!=null)
                 poster = result;
-                image.setImageBitmap(poster);
-                imageString = Functions.encodeToBase64(poster, Bitmap.CompressFormat.JPEG, 100);
-                // Close progressdialog
-                mProgressDialog.dismiss();
-            }
-            else{
+
+            else
                 //poster=R.drawable.movies_icon;
-                Bitmap icon = BitmapFactory.decodeResource(InternetAddActivity.this.getResources(), R.drawable.movies_icon);
-            }
+                poster = BitmapFactory.decodeResource(InternetAddActivity.this.getResources(), R.drawable.movies_icon);
+
+
+            image.setImageBitmap(poster);
+            imageString = Functions.encodeToBase64(poster, Bitmap.CompressFormat.JPEG, 100);
+            // Close progressdialog
+            mProgressDialog.dismiss();
         }
     }
 }
