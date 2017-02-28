@@ -173,7 +173,7 @@ public class Functions {
             categories.add(bio.getText().toString());
 
         for (int i=0;i<categories.size()-1;i++)
-            genre+=categories.get(i).toString()+",";
+            genre+=categories.get(i).toString()+", ";
         if (!categories.isEmpty())
             genre+=categories.get(categories.size()-1).toString();
 

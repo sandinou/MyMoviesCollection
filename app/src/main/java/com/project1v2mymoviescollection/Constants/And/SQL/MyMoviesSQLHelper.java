@@ -95,7 +95,6 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
 
     /**
      *  Function to get movie's informations from the database for ViewMovieActivity
-     * @param title
      * @param date
      * @param runtime
      * @param director
@@ -104,14 +103,13 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
      * @param actors
      * @param story
      * @param imageString
-     * @param poster
      * @param cursor
      */
-    public static void view(TextView title, TextView date, TextView runtime, TextView director, TextView writer, TextView genre, TextView actors, TextView story, String imageString, ImageView poster, Cursor cursor) {
+    public static void view(TextView date, TextView runtime, TextView director, TextView writer, TextView genre, TextView actors, TextView story, String imageString, Cursor cursor, ImageView affiche) {
         //cursor.moveToFirst();
-        title.setPaintFlags(title.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+       // title.setPaintFlags(title.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
 
-        title.setText(cursor.getString(cursor.getColumnIndex(DBConstants.TITLE_COLUMN)));
+      //  title.setText(cursor.getString(cursor.getColumnIndex(DBConstants.TITLE_COLUMN)));
         date.setText(cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN)));
         runtime.setText(Functions.minutesInHours(cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN))));
         director.setText(cursor.getString(cursor.getColumnIndex(DBConstants.DIRECTOR_COLUMN)));
@@ -122,9 +120,9 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
         imageString = cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN));
         if (imageString != null) {
             Bitmap myBitmapAgain = Functions.decodeBase64(imageString);
-            poster.setImageBitmap(myBitmapAgain);
+            affiche.setImageBitmap(myBitmapAgain);
         } else {
-            poster.setImageResource(R.drawable.movies_icon);
+            affiche.setImageResource(R.drawable.movies_icon);
         }
     }
 
@@ -160,7 +158,7 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
      */
     public static void editMovie(Cursor cursor, EditText title, TextView date, EditText runtime, EditText director, EditText writer, String genre, EditText actors, EditText story, EditText url,
                                  String imageString, ImageView image, CheckBox action, CheckBox animation, CheckBox adventure, CheckBox comedy, CheckBox drama, CheckBox horror,
-                                 CheckBox western, CheckBox thriller, CheckBox romance, CheckBox sf, CheckBox crime, CheckBox history, CheckBox war, CheckBox fantasy, CheckBox bio){
+                                 CheckBox western, CheckBox thriller, CheckBox romance, CheckBox sf, CheckBox crime, CheckBox history, CheckBox war, CheckBox fantasy, CheckBox bio, ImageView poster){
 
         title.setText(cursor.getString(cursor.getColumnIndex(DBConstants.TITLE_COLUMN)));
         date.setText(cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN)));
@@ -173,13 +171,16 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
         story.setText(cursor.getString(cursor.getColumnIndex(DBConstants.STORY_COLUMN)));
         url.setText(cursor.getString(cursor.getColumnIndex(DBConstants.URL_COLUMN)));
         imageString = cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN));
-        if (imageString!=null) {
+       /* if (imageString!=null) {
             Bitmap myBitmapAgain = Functions.decodeBase64(imageString);
             image.setImageBitmap(myBitmapAgain);
         }
         else {
             image.setImageResource(R.drawable.movies_icon);
-        }
+        }*/
+
+        Bitmap myBitmapAgain = Functions.decodeBase64(imageString);
+        poster.setImageBitmap(myBitmapAgain);
     }
 
 }

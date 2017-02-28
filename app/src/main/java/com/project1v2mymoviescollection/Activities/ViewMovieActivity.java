@@ -22,8 +22,8 @@ import com.project1v2mymoviescollection.R;
 
 public class ViewMovieActivity extends AppCompatActivity {
 
-    private TextView title,date,runtime,director,writer,actors,genre,story;
-    private ImageView poster;
+    private TextView date,runtime,director,writer,actors,genre,story;
+    private ImageView affiche;
     private int id;
     private String imageString;
     public  int currentPosition = 0;
@@ -37,7 +37,7 @@ public class ViewMovieActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_movie);
 
-        title = (TextView)findViewById(R.id.titleTV);
+       // title = (TextView)findViewById(R.id.titleTV);
         date = (TextView)findViewById(R.id.dateTV);
         runtime = (TextView)findViewById(R.id.runtimeTV);
         director = (TextView)findViewById(R.id.directorTV);
@@ -45,7 +45,8 @@ public class ViewMovieActivity extends AppCompatActivity {
         actors = (TextView)findViewById(R.id.actorsTV);
         genre = (TextView)findViewById(R.id.genreTV);
         story = (TextView)findViewById(R.id.storyTV);
-        poster = (ImageView)findViewById(R.id.posterIV);
+       // poster = (ImageView)findViewById(R.id.posterIV);
+        affiche  =(ImageView) findViewById(R.id.afficheIV);
 
         id = getIntent().getIntExtra("_id",-1);
         currentPosition = getIntent().getIntExtra("position",1);
@@ -54,9 +55,9 @@ public class ViewMovieActivity extends AppCompatActivity {
         cursor = myMoviesSQLHelper.getReadableDatabase().query(DBConstants.TABLE_NAME,null,DBConstants.ID_COLUMN+"=?",new String[]{" "+id},null,null,null);
         cursor.moveToFirst();
 
-        MyMoviesSQLHelper.view(title,date,runtime,director,writer,genre,actors,story,imageString,poster,cursor);
+        MyMoviesSQLHelper.view(date,runtime,director,writer,genre,actors,story,imageString,cursor, affiche);
 
-        setTitle(title.getText().toString());
+        setTitle(cursor.getString(cursor.getColumnIndex(DBConstants.TITLE_COLUMN)));
     }
 
 

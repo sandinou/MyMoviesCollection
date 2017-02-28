@@ -8,7 +8,7 @@
     <string name="sort_from_newest_to_older">Sort by release year, newest to oldest</string>
     <string name="sort_from_oldest_to_newest">Sort by release year, oldest to newest</string>
     <string name="sort_by_name">Sort by name</string>
-    <string name="movie_title">Movie title</string>
+    <string name="movie_title">Enter the movie title</string>
     <string name="release_date"><u>Release date:</u></string>
     <string name="pick_the_release_date">Pick the release date</string>
     <string name="duration"><u>Runtime:</u></string>

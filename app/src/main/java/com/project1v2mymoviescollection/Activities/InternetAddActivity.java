@@ -220,27 +220,8 @@ public class InternetAddActivity extends AppCompatActivity {
                 }
                 else {
                     url.setText(resultJSON.get(7).toString());
-
-
-                    Picasso.with(InternetAddActivity.this).load(url.getText().toString()).into(new Target() {
-                                @Override
-                                public void onBitmapLoaded (final Bitmap bitmap, Picasso.LoadedFrom from){
-                                /* Save the bitmap or do something with it here */
-                                    poster=bitmap;
-                                    imageString = Functions.encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
-
-                                    //Set it in the ImageView
-                                    image.setImageBitmap(bitmap);
-                                }
-
-                                @Override
-                                public void onPrepareLoad(Drawable placeHolderDrawable) {}
-
-                                @Override
-                                public void onBitmapFailed(Drawable errorDrawable) {}
-                            });
+                    Picasso.with(InternetAddActivity.this).load(url.getText().toString()).into(image);
                 }
-               // imageString = Functions.encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
                 genre = resultJSON.get(8).toString();
 
                 Functions.checkedGenre(genre,action,animation,adventure,comedy,drama,horror,western,thriller,romance,sf,crime,history,war,fantasy,bio);
@@ -272,6 +253,9 @@ public class InternetAddActivity extends AppCompatActivity {
                 if (d.length==3)
                     year = Integer.parseInt(d[2]);
                 else year=0;
+                image.buildDrawingCache();
+                poster = image.getDrawingCache();
+                imageString = Functions.encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
                 myMoviesSQLHelper.save(InternetAddActivity.this,id,title.getText().toString(),releaseDate.getText().toString(),year,runtime.getText().toString(),director.getText().toString(),writer.getText().toString(),genre,actors.getText().toString(),storyLine.getText().toString(),url.getText().toString(),imageString,imdbID);
                 break;
 

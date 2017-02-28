@@ -11,7 +11,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Activities.ManuallyAddEditMovieActivity"
-    android:background="#ffffff">
+    android:background="@drawable/background01">
 
 
     <EditText
@@ -21,7 +21,7 @@
         android:id="@+id/titleET"
         android:hint="@string/movie_title"
         android:textSize="24sp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/background_light"
         android:gravity="center_vertical|center"
         android:layout_gravity="center" />
 
@@ -48,7 +48,7 @@
                     android:id="@+id/date"
                     android:text="@string/release_date"
                     android:textSize="22sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/background_light"
                     android:layout_weight="1" />
 
                 <TextView
@@ -57,7 +57,7 @@
                     android:id="@+id/releaseDateTV"
                     android:hint="@string/pick_the_release_date"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/background_light"
                     android:layout_weight="2"
                     android:layout_gravity="center"
                     android:gravity="center_horizontal" />
@@ -76,7 +76,7 @@
                     android:id="@+id/runtime"
                     android:text="@string/duration"
                     android:textSize="22sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/background_light"
                     android:layout_weight="1" />
 
                 <EditText
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/runtimeET"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/background_light"
                     android:inputType="number"
                     android:hint="@string/enter_the_movie_duration_in_minutes"
                     android:layout_weight="2"
@@ -104,7 +104,7 @@
                     android:id="@+id/director"
                     android:text="@string/director"
                     android:textSize="22sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/background_light"
                     android:layout_gravity="center"
                     android:layout_weight="1" />
 
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/directorET"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/background_light"
                     android:layout_gravity="center"
                     android:inputType="textCapWords|textAutoComplete"
                     android:hint="@string/enter_director_name"
@@ -135,7 +135,7 @@
                     android:id="@+id/writer"
                     android:text="@string/writer"
                     android:textSize="22sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/background_light"
                     android:layout_gravity="center"
                     android:layout_weight="1" />
 
@@ -144,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/writerET"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/background_light"
                     android:layout_gravity="center"
                     android:inputType="textCapWords|textAutoComplete"
                     android:hint="@string/enter_writer_name"
@@ -166,7 +166,7 @@
                     android:id="@+id/actors"
                     android:text="@string/actors"
                     android:textSize="22sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/background_light"
                     android:layout_gravity="center"
                     android:layout_weight="1" />
 
@@ -175,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/actorsET"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/background_light"
                     android:inputType="textCapWords|textAutoComplete"
                     android:hint="@string/enter_the_actors_name_separated_by_a_comma"
                     android:layout_weight="2"
@@ -193,7 +193,7 @@
                     android:id="@+id/genre"
                     android:text="@string/genre"
                     android:textSize="22sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/background_light"
                     android:layout_gravity="center"
                     android:layout_weight="1" />
 
@@ -208,153 +208,183 @@
 
                 <CheckBox
                     android:text="@string/action"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/actionCB"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light" />
 
                 <CheckBox
                     android:text="@string/adventure"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/adventureCB"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/actionCB"
                     android:layout_toEndOf="@+id/actionCB"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
                 <CheckBox
                     android:text="@string/fantasy"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/fantasyCB"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/adventureCB"
                     android:layout_toEndOf="@+id/adventureCB"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
                 <CheckBox
                     android:text="@string/drama"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/dramaCB"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/fantasyCB"
                     android:layout_toEndOf="@+id/fantasyCB"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
                 <CheckBox
                     android:text="@string/comedy"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/comedyCB"
                     android:layout_below="@+id/fantasyCB"
                     android:layout_toRightOf="@+id/animationCB"
                     android:layout_toEndOf="@+id/animationCB"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
                 <CheckBox
                     android:text="@string/animation"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/animationCB"
                     android:layout_toRightOf="@+id/horrorCB"
                     android:layout_below="@+id/adventureCB"
                     android:layout_toEndOf="@+id/horrorCB"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
                 <CheckBox
                     android:text="@string/horror"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/horrorCB"
                     android:layout_below="@+id/actionCB"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
                 <CheckBox
                     android:text="@string/crime"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/crimeCB"
                     android:layout_below="@+id/dramaCB"
                     android:layout_toEndOf="@+id/comedyCB"
                     android:layout_toRightOf="@+id/comedyCB"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
                 <CheckBox
                     android:text="@string/thriller"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/thrillerCB"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/horrorCB"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
                 <CheckBox
                     android:text="@string/biography"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/biographyCB"
                     android:layout_below="@+id/animationCB"
                     android:layout_toRightOf="@+id/thrillerCB"
                     android:layout_toEndOf="@+id/thrillerCB"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
                 <CheckBox
                     android:text="@string/romance"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/romanceCB"
                     android:layout_below="@+id/comedyCB"
                     android:layout_toEndOf="@+id/biographyCB"
                     android:layout_toRightOf="@+id/biographyCB"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
                 <CheckBox
                     android:text="@string/war"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/warCB"
                     android:layout_below="@+id/crimeCB"
                     android:layout_toEndOf="@+id/romanceCB"
                     android:layout_toRightOf="@+id/romanceCB"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
                 <CheckBox
                     android:text="@string/history"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/historyCB"
                     android:layout_below="@+id/thrillerCB"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
                 <CheckBox
                     android:text="@string/western"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/westernCB"
                     android:layout_below="@+id/biographyCB"
                     android:layout_toEndOf="@+id/historyCB"
                     android:layout_toRightOf="@+id/historyCB"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
                 <CheckBox
                     android:text="@string/science_fiction"
+                    android:buttonTint="#b30000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/sfCB"
                     android:layout_below="@+id/romanceCB"
                     android:layout_toEndOf="@+id/westernCB"
                     android:layout_toRightOf="@+id/westernCB"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@android:color/background_light"/>
 
             </RelativeLayout>
 
@@ -364,12 +394,12 @@
                 android:inputType="textAutoComplete|textMultiLine|textPersonName"
                 android:id="@+id/storyLineET"
                 android:hint="@string/storyline"
-                android:background="@drawable/storyline_edittext_drawable"
                 android:layout_margin="30dp"
                 android:textSize="18sp"
                 android:layout_gravity="center_horizontal"
                 android:gravity="top"
-                android:padding="20dp" />
+                android:padding="20dp"
+                android:textColor="@android:color/background_light"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -384,35 +414,42 @@
                     android:id="@+id/url"
                     android:text="@string/url_download_image"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/background_light"
                     android:layout_weight="0.5"
                     android:layout_gravity="center"
-                    android:gravity="start" />
+                    android:gravity="start"
+                    android:ellipsize="start" />
 
                 <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/urlET"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/background_light"
                     android:inputType="textUri"
                     android:hint="@string/enter_an_url_to_download_the_movie_jacket"
                     android:layout_weight="1.7"
                     android:gravity="start"
                     android:layout_gravity="center" />
-
+<!--
                 <ImageButton
                     android:text="@string/show"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:id="@+id/showIB"
                     android:layout_weight="0.3"
-                    android:background="@android:drawable/screen_background_light_transparent"
-                    android:src="@drawable/search"
+                    android:src="@drawable/internet_search"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center" />
-
+-->
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_gravity="center"
+                android:contentDescription="@string/movie_poster"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
             <!--
             <LinearLayout
@@ -454,12 +491,7 @@
             </LinearLayout>
             -->
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_gravity="center"
-                android:contentDescription="@string/movie_poster"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+
 
         </LinearLayout>
     </ScrollView>

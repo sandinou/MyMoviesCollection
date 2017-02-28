@@ -2,10 +2,13 @@ package com.project1v2mymoviescollection.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +18,7 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -26,10 +30,12 @@ import android.widget.Toast;
 
 import com.project1v2mymoviescollection.Constants.And.SQL.DBConstants;
 import com.project1v2mymoviescollection.Constants.And.SQL.MyMoviesSQLHelper;
+import com.project1v2mymoviescollection.Functions.CheckConnection;
 import com.project1v2mymoviescollection.Functions.Functions;
 import com.project1v2mymoviescollection.Functions.MyMovie;
 import com.project1v2mymoviescollection.R;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,7 +78,6 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
 
 
         title = (EditText)findViewById(R.id.titleET);
-       // title.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         releaseDate = (TextView) findViewById(R.id.releaseDateTV);
         runtime = (EditText)findViewById(R.id.runtimeET);
         director = (EditText)findViewById(R.id.directorET);
@@ -116,7 +121,7 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
         cursor.moveToPosition(currentPosition);
 
         if(id!=-1)
-            MyMoviesSQLHelper.editMovie(cursor,title,releaseDate,runtime,director,writer,genre2,actors,storyLine,url,imageString,image,action,animation,adventure,comedy,drama,horror,western,thriller,romance,sf,crime,history,war,fantasy,bio);
+            MyMoviesSQLHelper.editMovie(cursor,title,releaseDate,runtime,director,writer,genre2,actors,storyLine,url,imageString,image,action,animation,adventure,comedy,drama,horror,western,thriller,romance,sf,crime,history,war,fantasy,bio, image);
 
         setTitle(title.getText().toString());
     }
@@ -132,9 +137,38 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
                 break;
             case R.id.showIB:
 
-                if (!url.getText().toString().trim().equals(""))
-                    Picasso.with(this).load(url.getText().toString()).into(image);
-                    //new DownloadImage().execute(url.getText().toString());
+                View view = v;
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+                CheckConnection checkConnection = new CheckConnection(ManuallyAddEditMovieActivity.this);
+                if (!checkConnection.isNetworkAvailable())
+                    Toast.makeText(ManuallyAddEditMovieActivity.this, "Please connect to internet !", Toast.LENGTH_SHORT).show();
+
+                if (!url.getText().toString().trim().equals("")) {
+                    new checkUrl().execute(url.getText().toString());
+
+                    /*Picasso.with(ManuallyAddEditMovieActivity.this).load(url.getText().toString()).into(new Target() {
+                        @Override
+                        public void onBitmapLoaded (final Bitmap bitmap, Picasso.LoadedFrom from){
+                                // Save the bitmap or do something with it here
+                            poster=bitmap;
+                            imageString = Functions.encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
+
+                            //Set it in the ImageView
+                            image.setImageBitmap(bitmap);
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {}
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {}
+                    });*/
+
+                }
+
                 else {
                     toastMessage = "URL empty !!";
                     Functions.URLEmpty(ManuallyAddEditMovieActivity.this, toastMessage);
@@ -179,9 +213,9 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
                     if (d.length==3)
                         year = Integer.parseInt(d[2]);
                     else year=0;
-
-
-
+                    image.buildDrawingCache();
+                    poster = image.getDrawingCache();
+                    imageString = Functions.encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
                     myMoviesSQLHelper.save(ManuallyAddEditMovieActivity.this,id,title.getText().toString(),releaseDate.getText().toString(),year,runtime.getText().toString(),director.getText().toString(),writer.getText().toString(),genre1,actors.getText().toString(),storyLine.getText().toString(),url.getText().toString(),imageString,imdbId);
 
                 }
@@ -207,58 +241,58 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
         return true;
     }
 
-
-    /**
-     * Class to download image from URL with Async Task
-     */
-
-    public class DownloadImage extends AsyncTask<String, Void, Bitmap> {
+    public class checkUrl extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Create a progressdialog
-            mProgressDialog = new ProgressDialog(ManuallyAddEditMovieActivity.this);
-            // Set progressdialog title
-            mProgressDialog.setTitle("Download Image");
-            // Set progressdialog message
-            mProgressDialog.setMessage("Loading...");
-            mProgressDialog.setIndeterminate(false);
-            // Show progressdialog
-            mProgressDialog.show();
         }
 
         @Override
-        public Bitmap doInBackground(String... URL) {
+        public Boolean doInBackground(String... URL) {
             String imageURL = URL[0];
-            Bitmap bitmap = null;
             try {
-                // Download Image from URL
                 InputStream input = new java.net.URL(imageURL).openStream();
-                // Decode Bitmap
-                bitmap = BitmapFactory.decodeStream(input);
+
             } catch (Exception e) {
                 e.printStackTrace();
-                return null;
+                return false;
             }
-            return bitmap;
+            return true;
         }
 
-       @Override
-        public void onPostExecute(Bitmap result) {
-            // Set the bitmap into ImageView
-            if (result!=null) {
-                poster = result;
-                image.setImageBitmap(poster);
-                imageString = Functions.encodeToBase64(poster, Bitmap.CompressFormat.JPEG, 100);
+        @Override
+        public void onPostExecute(Boolean result) {
+
+            if (result) {
+                Picasso.with(ManuallyAddEditMovieActivity.this).load(url.getText().toString()).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded (final Bitmap bitmap, Picasso.LoadedFrom from){
+                                /* Save the bitmap or do something with it here */
+                        poster=bitmap;
+                        imageString = Functions.encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
+
+                        //Set it in the ImageView
+                        image.setImageBitmap(bitmap);
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {}
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {}
+                });
+
             }
             else {
                 toastMessage = "URL not valid !!";
                 Functions.URLEmpty(ManuallyAddEditMovieActivity.this, toastMessage);
             }
             // Close progressdialog
-            mProgressDialog.dismiss();
+
         }
     }
+
+
 
 }
