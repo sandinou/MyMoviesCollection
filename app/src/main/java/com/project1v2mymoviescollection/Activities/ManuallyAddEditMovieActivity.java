@@ -29,6 +29,7 @@ import com.project1v2mymoviescollection.Constants.And.SQL.MyMoviesSQLHelper;
 import com.project1v2mymoviescollection.Functions.Functions;
 import com.project1v2mymoviescollection.Functions.MyMovie;
 import com.project1v2mymoviescollection.R;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -132,7 +133,8 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
             case R.id.showIB:
 
                 if (!url.getText().toString().trim().equals(""))
-                    new DownloadImage().execute(url.getText().toString());
+                    Picasso.with(this).load(url.getText().toString()).into(image);
+                    //new DownloadImage().execute(url.getText().toString());
                 else {
                     toastMessage = "URL empty !!";
                     Functions.URLEmpty(ManuallyAddEditMovieActivity.this, toastMessage);
@@ -177,6 +179,7 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
                     if (d.length==3)
                         year = Integer.parseInt(d[2]);
                     else year=0;
+
 
 
                     myMoviesSQLHelper.save(ManuallyAddEditMovieActivity.this,id,title.getText().toString(),releaseDate.getText().toString(),year,runtime.getText().toString(),director.getText().toString(),writer.getText().toString(),genre1,actors.getText().toString(),storyLine.getText().toString(),url.getText().toString(),imageString,imdbId);

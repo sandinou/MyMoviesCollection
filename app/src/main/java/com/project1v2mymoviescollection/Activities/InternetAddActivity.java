@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,11 +20,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project1v2mymoviescollection.Constants.And.SQL.MyMoviesSQLHelper;
 import com.project1v2mymoviescollection.Functions.Functions;
 import com.project1v2mymoviescollection.R;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -205,20 +209,43 @@ public class InternetAddActivity extends AppCompatActivity {
                 writer.setText(resultJSON.get(4).toString());
                 actors.setText(resultJSON.get(5).toString());
                 storyLine.setText(resultJSON.get(6).toString());
+
                 if (resultJSON.get(7).toString().equals("N/A")) {
                     url.setText("");
-                    image.setImageResource(R.drawable.movies_icon);
-                    mProgressDialog.dismiss();
+                    Drawable drawable = getResources().getDrawable(R.drawable.movies_icon);
+                    poster = ((BitmapDrawable)drawable).getBitmap();
+                    image.setImageBitmap(poster);
+                    imageString = Functions.encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
+                    //mProgressDialog.dismiss();
                 }
                 else {
                     url.setText(resultJSON.get(7).toString());
-                    new DownloadImage().execute(url.getText().toString());
-                    //Picasso.with(InternetAddActivity.this).load(url.getText().toString()).into(image);
+
+
+                    Picasso.with(InternetAddActivity.this).load(url.getText().toString()).into(new Target() {
+                                @Override
+                                public void onBitmapLoaded (final Bitmap bitmap, Picasso.LoadedFrom from){
+                                /* Save the bitmap or do something with it here */
+                                    poster=bitmap;
+                                    imageString = Functions.encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
+
+                                    //Set it in the ImageView
+                                    image.setImageBitmap(bitmap);
+                                }
+
+                                @Override
+                                public void onPrepareLoad(Drawable placeHolderDrawable) {}
+
+                                @Override
+                                public void onBitmapFailed(Drawable errorDrawable) {}
+                            });
                 }
+               // imageString = Functions.encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
                 genre = resultJSON.get(8).toString();
 
                 Functions.checkedGenre(genre,action,animation,adventure,comedy,drama,horror,western,thriller,romance,sf,crime,history,war,fantasy,bio);
                 setTitle(title.getText().toString());
+                mProgressDialog.dismiss();
             }
         }
     }
@@ -293,7 +320,7 @@ public class InternetAddActivity extends AppCompatActivity {
                 poster = BitmapFactory.decodeResource(InternetAddActivity.this.getResources(), R.drawable.movies_icon);
 
 
-            image.setImageBitmap(poster);
+            //image.setImageBitmap(poster);
             imageString = Functions.encodeToBase64(poster, Bitmap.CompressFormat.JPEG, 100);
             // Close progressdialog
             mProgressDialog.dismiss();

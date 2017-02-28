@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class InternetMovieAdapter extends ArrayAdapter<MyMovie> {
         super(context, resource);
     }
 
+    @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView==null)
@@ -57,10 +59,11 @@ public class InternetMovieAdapter extends ArrayAdapter<MyMovie> {
 
 
     public void setImage(MyMovie movie){
-        if (movie.getPoster().equals("N/A"))
+        if (movie.getPoster().equals("N/A")) {
             image.setImageResource(R.drawable.movies_icon);
+        }
         else
-            Picasso.with(getContext()).load(movie.getPoster()).into(image);
+            Picasso.with(getContext()).load(movie.getPoster()).fit().centerInside().into(image);
             //new DownloadImage(image).execute(movie.getPoster());
     }
 

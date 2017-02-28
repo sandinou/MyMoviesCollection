@@ -153,11 +153,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    /*
-    String orderBy =  DatabaseHelper.COLUMN_DEADLINE + " ASC";;
-    Cursor cursor = database.query(DatabaseHelper.TABLE_DATABASE, columns, null, null, null, null, orderBy);
-     */
-
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -207,7 +202,6 @@ public class MainActivity extends AppCompatActivity {
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
                 break;
-
 
         }
         return super.onContextItemSelected(item);
