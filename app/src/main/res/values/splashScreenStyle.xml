@@ -6,7 +6,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#000000</item>
         <item name="colorPrimaryDark">#000000</item>
-        <item name="colorAccent">#846B15</item>
+        <item name="colorAccent">#b30000</item>
     </style>
 
 </resources>

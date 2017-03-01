@@ -1,9 +1,9 @@
 package com.project1v2mymoviescollection.Activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -11,7 +11,7 @@ import com.project1v2mymoviescollection.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private static int TIME_OUT = 1000;
+    private static int TIME_OUT = 3000;
     private ProgressBar spinner;
 
     @Override

@@ -3,12 +3,10 @@ package com.project1v2mymoviescollection.Activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -20,20 +18,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.project1v2mymoviescollection.Constants.And.SQL.MyMoviesSQLHelper;
 import com.project1v2mymoviescollection.Functions.Functions;
 import com.project1v2mymoviescollection.R;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -212,11 +207,7 @@ public class InternetAddActivity extends AppCompatActivity {
 
                 if (resultJSON.get(7).toString().equals("N/A")) {
                     url.setText("");
-                    Drawable drawable = getResources().getDrawable(R.drawable.movies_icon);
-                    poster = ((BitmapDrawable)drawable).getBitmap();
-                    image.setImageBitmap(poster);
-                    imageString = Functions.encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
-                    //mProgressDialog.dismiss();
+                    image.setImageResource(R.drawable.movies_icon);
                 }
                 else {
                     url.setText(resultJSON.get(7).toString());
@@ -249,12 +240,11 @@ public class InternetAddActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.saveItem:
                 String[] d = releaseDate.getText().toString().split(" ");
-               // int year = Integer.parseInt(d[2]);
                 if (d.length==3)
                     year = Integer.parseInt(d[2]);
                 else year=0;
-                image.buildDrawingCache();
-                poster = image.getDrawingCache();
+
+                poster=((BitmapDrawable)image.getDrawable()).getBitmap();
                 imageString = Functions.encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
                 myMoviesSQLHelper.save(InternetAddActivity.this,id,title.getText().toString(),releaseDate.getText().toString(),year,runtime.getText().toString(),director.getText().toString(),writer.getText().toString(),genre,actors.getText().toString(),storyLine.getText().toString(),url.getText().toString(),imageString,imdbID);
                 break;
@@ -267,48 +257,6 @@ public class InternetAddActivity extends AppCompatActivity {
                 break;
         }
         return true;
-    }
-
-
-
-    /**
-     * Class to download image from URL with Async Task
-     */
-
-    public class DownloadImage extends AsyncTask<String, Void, Bitmap> {
-
-        @Override
-        public Bitmap doInBackground(String... URL) {
-            String imageURL = URL[0];
-            Bitmap bitmap = null;
-
-            try {
-                // Download Image from URL
-                InputStream input = new java.net.URL(imageURL).openStream();
-                // Decode Bitmap
-                bitmap = BitmapFactory.decodeStream(input);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-        @Override
-        public void onPostExecute(Bitmap result) {
-            // Set the bitmap into ImageView
-            if (result!=null)
-                poster = result;
-
-            else
-                //poster=R.drawable.movies_icon;
-                poster = BitmapFactory.decodeResource(InternetAddActivity.this.getResources(), R.drawable.movies_icon);
-
-
-            //image.setImageBitmap(poster);
-            imageString = Functions.encodeToBase64(poster, Bitmap.CompressFormat.JPEG, 100);
-            // Close progressdialog
-            mProgressDialog.dismiss();
-        }
     }
 }
 

@@ -21,7 +21,7 @@
     <item android:title="@string/exit_from_the_app"
         android:id="@+id/exit"
         android:icon="@drawable/exit_button"
-        app:showAsAction="collapseActionView" />
+        app:showAsAction="ifRoom" />
     <!--
        <item android:title="@string/search"
            android:id="@+id/search"

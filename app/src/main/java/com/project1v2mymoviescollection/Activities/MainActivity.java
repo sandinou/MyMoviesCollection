@@ -4,9 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -132,15 +132,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.sort_from_newest_to_oldest:
                 cursor = myMoviesSQLHelper.getReadableDatabase().rawQuery("SELECT * FROM "+DBConstants.TABLE_NAME+" ORDER BY ("+DBConstants.YEAR_COLUMN+") DESC",null);
                 adapter.swapCursor(cursor);
-                //adapter = new MyMovieAdapter(this,cursor);
                 break;
             case R.id.sort_from_oldest_to_newest:
                 cursor = myMoviesSQLHelper.getReadableDatabase().rawQuery("SELECT * FROM "+DBConstants.TABLE_NAME+" ORDER BY "+DBConstants.YEAR_COLUMN+" ASC",null);
                 adapter.swapCursor(cursor);
-                //adapter = new MyMovieAdapter(this,cursor);
                 break;
         }
-        //adapter = new MyMovieAdapter(this,cursor);
         return true;
     }
 
@@ -193,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
                 break;
-
         }
         return super.onContextItemSelected(item);
     }

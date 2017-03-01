@@ -7,16 +7,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project1v2mymoviescollection.Activities.MainActivity;
-import com.project1v2mymoviescollection.Activities.ManuallyAddEditMovieActivity;
 import com.project1v2mymoviescollection.Functions.Functions;
-import com.project1v2mymoviescollection.R;
 
 /**
  * Created by SandraMac on 15/02/2017.
@@ -106,10 +103,7 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
      * @param cursor
      */
     public static void view(TextView date, TextView runtime, TextView director, TextView writer, TextView genre, TextView actors, TextView story, String imageString, Cursor cursor, ImageView affiche) {
-        //cursor.moveToFirst();
-       // title.setPaintFlags(title.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
 
-      //  title.setText(cursor.getString(cursor.getColumnIndex(DBConstants.TITLE_COLUMN)));
         date.setText(cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN)));
         runtime.setText(Functions.minutesInHours(cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN))));
         director.setText(cursor.getString(cursor.getColumnIndex(DBConstants.DIRECTOR_COLUMN)));
@@ -118,12 +112,15 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
         actors.setText(cursor.getString(cursor.getColumnIndex(DBConstants.ACTORS_COLUMN)));
         story.setText(cursor.getString(cursor.getColumnIndex(DBConstants.STORY_COLUMN)));
         imageString = cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN));
-        if (imageString != null) {
+        Bitmap myBitmapAgain = Functions.decodeBase64(imageString);
+        affiche.setImageBitmap(myBitmapAgain);
+        /*if (imageString != null) {
             Bitmap myBitmapAgain = Functions.decodeBase64(imageString);
             affiche.setImageBitmap(myBitmapAgain);
         } else {
             affiche.setImageResource(R.drawable.movies_icon);
-        }
+        }*/
+
     }
 
     /**

@@ -32,7 +32,8 @@
         android:id="@+id/progressBar"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="20dp"
-        android:progressDrawable="@android:color/holo_orange_light"
-        android:visibility="visible" />
+        android:progressDrawable="@color/splashScreen"
+        android:visibility="visible"
+        />
 
 </FrameLayout>

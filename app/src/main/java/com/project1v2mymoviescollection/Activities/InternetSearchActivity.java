@@ -4,11 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,18 +14,18 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project1v2mymoviescollection.Functions.Functions;
-import com.project1v2mymoviescollection.Functions.MyMovie;
 import com.project1v2mymoviescollection.Functions.InternetMovieAdapter;
+import com.project1v2mymoviescollection.Functions.MyMovie;
 import com.project1v2mymoviescollection.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -44,7 +42,6 @@ public class InternetSearchActivity extends AppCompatActivity {
     private InternetMovieAdapter adapter;
     private ListView listView;
     private String t = "";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -87,10 +84,14 @@ public class InternetSearchActivity extends AppCompatActivity {
             }
         });*/
 
+       /* if (savedInstanceState !=null){
+            allMovies=savedInstanceState.getParcelableArrayList("movies")
+        }*/
+
+
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 View view = v;
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -99,17 +100,26 @@ public class InternetSearchActivity extends AppCompatActivity {
                 t=searchET.getText().toString().replaceAll(" ","+");
 
                 if (!t.trim().equals("")) {
-                    DownloadMovieTitle downloadMovieTitle = new DownloadMovieTitle();
-                    downloadMovieTitle.execute();
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            DownloadMovieTitle downloadMovieTitle = new DownloadMovieTitle();
+                            downloadMovieTitle.execute();
+                            listView.setAdapter(adapter);
+                        }
+                    }, 5000);
+
+
                 }
                 else {
                     adapter.clear();
                     Toast.makeText(InternetSearchActivity.this, "Enter title !!", Toast.LENGTH_SHORT).show();
                 }
+                listView.setAdapter(adapter);
             }
         });
 
-        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -127,7 +137,6 @@ public class InternetSearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId()==R.id.cancel){
             Intent cancel = new Intent(InternetSearchActivity.this,MainActivity.class);
             cancel.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -163,7 +172,6 @@ public class InternetSearchActivity extends AppCompatActivity {
             HttpURLConnection connection = null;
             BufferedReader reader;
             StringBuilder builder = new StringBuilder();
-
 
             try {
                 URL url = new URL(String.format(URL));//http://www.omdbapi.com/?s=forrest+gump&type=movie
@@ -214,7 +222,6 @@ public class InternetSearchActivity extends AppCompatActivity {
             adapter.clear();
             adapter.addAll(resultJSON);
             mProgressDialog.dismiss();
-
         }
     }
 }
