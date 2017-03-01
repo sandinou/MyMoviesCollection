@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/posterIV"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY"
+            android:scaleType="fitCenter"
             android:contentDescription="@string/movie_s_poster"
             android:layout_width="0dp"
             android:layout_weight="0.4" />

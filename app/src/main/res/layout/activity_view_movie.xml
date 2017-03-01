@@ -7,13 +7,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.project1v2mymoviescollection.Activities.ViewMovieActivity"
-    android:background="@android:color/background_light">
+    android:background="@drawable/background01">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/afficheIV"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:layout_height="300dp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                     android:id="@+id/date"
                     android:layout_weight="1"
                     android:textSize="20sp"
-                    android:textColor="#000000" />
+                    android:textColor="#ffffff" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -52,7 +52,8 @@
                     android:id="@+id/dateTV"
                     android:layout_weight="2"
                     android:textSize="18sp"
-                    android:gravity="center_vertical|start" />
+                    android:gravity="center_vertical|start"
+                    android:textColor="#ffffff" />
             </LinearLayout>
 
             <LinearLayout
@@ -68,7 +69,7 @@
                     android:layout_weight="1"
                     android:text="@string/duration"
                     android:textSize="20sp"
-                    android:textColor="#000000" />
+                    android:textColor="#ffffff" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -76,7 +77,8 @@
                     android:id="@+id/runtimeTV"
                     android:layout_weight="2"
                     android:textSize="18sp"
-                    android:gravity="start" />
+                    android:gravity="start"
+                    android:textColor="#ffffff" />
             </LinearLayout>
 
             <LinearLayout
@@ -92,7 +94,7 @@
                     android:id="@+id/director"
                     android:layout_weight="1"
                     android:textSize="20sp"
-                    android:textColor="#000000" />
+                    android:textColor="#ffffff" />
 
                 <TextView
                     android:text=""
@@ -101,7 +103,8 @@
                     android:id="@+id/directorTV"
                     android:layout_weight="2"
                     android:textSize="18sp"
-                    android:gravity="start" />
+                    android:gravity="start"
+                    android:textColor="#ffffff" />
             </LinearLayout>
 
             <LinearLayout
@@ -117,7 +120,7 @@
                     android:id="@+id/writer"
                     android:layout_weight="1"
                     android:textSize="20sp"
-                    android:textColor="#000000" />
+                    android:textColor="#ffffff" />
 
                 <TextView
                     android:text=""
@@ -126,7 +129,8 @@
                     android:id="@+id/writerTV"
                     android:layout_weight="2"
                     android:textSize="18sp"
-                    android:gravity="start" />
+                    android:gravity="start"
+                    android:textColor="#ffffff" />
             </LinearLayout>
 
             <LinearLayout
@@ -142,7 +146,7 @@
                     android:id="@+id/actors"
                     android:layout_weight="1"
                     android:textSize="20sp"
-                    android:textColor="#000000" />
+                    android:textColor="#ffffff" />
 
                 <TextView
                     android:text=""
@@ -151,7 +155,8 @@
                     android:id="@+id/actorsTV"
                     android:layout_weight="2"
                     android:textSize="18sp"
-                    android:gravity="start" />
+                    android:gravity="start"
+                    android:textColor="#ffffff" />
             </LinearLayout>
 
             <LinearLayout
@@ -166,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/genre"
                     android:layout_weight="1"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
                     android:textSize="20sp" />
 
                 <TextView
@@ -176,7 +181,8 @@
                     android:layout_weight="2"
                     android:gravity="start"
                     android:textSize="18sp"
-                    android:lines="2" />
+                    android:lines="2"
+                    android:textColor="#ffffff" />
             </LinearLayout>
 
             <TextView
@@ -189,7 +195,7 @@
                 android:gravity="center_horizontal"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="5dp"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textStyle="bold|italic" />
 
             <TextView
@@ -197,11 +203,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/storyTV"
-                android:textSize="18sp"
-                android:background="@drawable/storyline_edittext_drawable"
+                android:textSize="20sp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:padding="20dp" />
+                android:padding="20dp"
+                android:textColor="#ffffff"
+                android:layout_marginBottom="30dp" />
 
         </LinearLayout>
     </ScrollView>
