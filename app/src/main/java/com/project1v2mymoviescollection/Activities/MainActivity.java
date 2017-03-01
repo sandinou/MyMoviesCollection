@@ -83,12 +83,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else
                             Toast.makeText(MainActivity.this, "Please connect to internet !", Toast.LENGTH_SHORT).show();
-
-
-
-
-                       // Intent addMovieI = new Intent(MainActivity.this,InternetSearchActivity.class);
-                        //startActivity(addMovieI);
                     }
                 }).setNegativeButton("Manually", new DialogInterface.OnClickListener() {
                     @Override
@@ -134,9 +128,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.sortbyname:
                 cursor = myMoviesSQLHelper.getReadableDatabase().rawQuery("SELECT * FROM "+DBConstants.TABLE_NAME+" ORDER BY "+DBConstants.TITLE_COLUMN+" ASC",null);
                 adapter.swapCursor(cursor);
-
-
-
                 break;
             case R.id.sort_from_newest_to_oldest:
                 cursor = myMoviesSQLHelper.getReadableDatabase().rawQuery("SELECT * FROM "+DBConstants.TABLE_NAME+" ORDER BY ("+DBConstants.YEAR_COLUMN+") DESC",null);

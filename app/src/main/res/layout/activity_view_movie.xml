@@ -12,8 +12,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:id="@+id/afficheIV"
-        android:scaleType="fitXY"
-        android:layout_height="300dp" />
+        android:scaleType="centerCrop"
+        android:layout_height="300dp"
+        android:background="@android:drawable/screen_background_light_transparent" />
 
     <ScrollView
         android:layout_width="match_parent"
