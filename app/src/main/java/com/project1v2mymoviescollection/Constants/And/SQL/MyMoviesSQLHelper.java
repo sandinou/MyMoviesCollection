@@ -9,11 +9,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project1v2mymoviescollection.Activities.MainActivity;
+import com.project1v2mymoviescollection.Activities.ViewMovieActivity;
 import com.project1v2mymoviescollection.Functions.Functions;
+import com.project1v2mymoviescollection.R;
 
 /**
  * Created by SandraMac on 15/02/2017.
@@ -36,7 +39,7 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
                 + DBConstants.DIRECTOR_COLUMN+" TEXT, "+ DBConstants.STORY_COLUMN+" TEXT, "
                 + DBConstants.URL_COLUMN+" TEXT, "+ DBConstants.WRITER_COLUMN+" TEXT, "
                 + DBConstants.ACTORS_COLUMN+" TEXT, "+ DBConstants.GENRE_COLUMN+" TEXT, "
-                + DBConstants.POSTER_COLUMN+" TEXT, "+DBConstants.IMDB_ID_MOVIE_COLUMN+" TEXT)");
+                + DBConstants.POSTER_COLUMN+" TEXT, "+DBConstants.IMDB_ID_MOVIE_COLUMN+" TEXT, "+DBConstants.WATCHED_COLUMN+" INTEGER)");
 
     }
 
@@ -59,9 +62,10 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
      * @param storyLine
      * @param url
      * @param imageString
+     * @param state_watched
      */
     public void save(Context context,int id, String title, String releaseDate, int year, String runtime,
-                            String director, String writer, String genre, String actors, String storyLine, String url, String imageString, String imdbID){
+                            String director, String writer, String genre, String actors, String storyLine, String url, String imageString, String imdbID, int state_watched){
 
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -78,15 +82,18 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
         contentValues.put(DBConstants.URL_COLUMN, url);
         contentValues.put(DBConstants.POSTER_COLUMN, imageString);
         contentValues.put(DBConstants.IMDB_ID_MOVIE_COLUMN,imdbID);
+        contentValues.put(DBConstants.WATCHED_COLUMN,state_watched);
 
         if (id == -1) {
             db.insert(DBConstants.TABLE_NAME, null, contentValues);
         } else
             db.update(DBConstants.TABLE_NAME, contentValues, "_id=?", new String[]{"" + id});
 
-        Intent finish = new Intent(context, MainActivity.class);
-        finish.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(finish);
+        if (!(context instanceof ViewMovieActivity)){
+            Intent finish = new Intent(context, MainActivity.class);
+            finish.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(finish);
+        }
     }
 
 
@@ -101,8 +108,9 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
      * @param story
      * @param imageString
      * @param cursor
+     * @param watched_Or_Not
      */
-    public static void view(TextView date, TextView runtime, TextView director, TextView writer, TextView genre, TextView actors, TextView story, String imageString, Cursor cursor, ImageView affiche) {
+    public static void view(TextView date, TextView runtime, TextView director, TextView writer, TextView genre, TextView actors, TextView story, String imageString, Cursor cursor, ImageView affiche, ImageButton watched_Or_Not) {
 
         date.setText(cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN)));
         runtime.setText(Functions.minutesInHours(cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN))));
@@ -114,12 +122,12 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
         imageString = cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN));
         Bitmap myBitmapAgain = Functions.decodeBase64(imageString);
         affiche.setImageBitmap(myBitmapAgain);
-        /*if (imageString != null) {
-            Bitmap myBitmapAgain = Functions.decodeBase64(imageString);
-            affiche.setImageBitmap(myBitmapAgain);
-        } else {
-            affiche.setImageResource(R.drawable.movies_icon);
-        }*/
+        if (cursor.getInt(cursor.getColumnIndex(DBConstants.WATCHED_COLUMN))==0)
+            watched_Or_Not.setImageResource(R.drawable.not_watched_red);
+        else
+            watched_Or_Not.setImageResource(R.drawable.watched_red);
+
+
 
     }
 
@@ -136,7 +144,6 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
      * @param story
      * @param url
      * @param imageString
-     * @param image
      * @param action
      * @param animation
      * @param adventure
@@ -152,9 +159,10 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
      * @param war
      * @param fantasy
      * @param bio
+     * @param poster
      */
     public static void editMovie(Cursor cursor, EditText title, TextView date, EditText runtime, EditText director, EditText writer, String genre, EditText actors, EditText story, EditText url,
-                                 String imageString, ImageView image, CheckBox action, CheckBox animation, CheckBox adventure, CheckBox comedy, CheckBox drama, CheckBox horror,
+                                 String imageString, CheckBox action, CheckBox animation, CheckBox adventure, CheckBox comedy, CheckBox drama, CheckBox horror,
                                  CheckBox western, CheckBox thriller, CheckBox romance, CheckBox sf, CheckBox crime, CheckBox history, CheckBox war, CheckBox fantasy, CheckBox bio, ImageView poster){
 
         title.setText(cursor.getString(cursor.getColumnIndex(DBConstants.TITLE_COLUMN)));

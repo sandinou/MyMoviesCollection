@@ -3,17 +3,15 @@ package com.project1v2mymoviescollection.Functions;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project1v2mymoviescollection.Constants.And.SQL.DBConstants;
-import com.project1v2mymoviescollection.Functions.Functions;
 import com.project1v2mymoviescollection.R;
 
 /**
@@ -26,6 +24,8 @@ public class MyMovieAdapter extends CursorAdapter {
     private TextView genre;
     private TextView year;
     private ImageView poster;
+    private ImageButton watched;
+    private boolean watch = false;
 
     public MyMovieAdapter(Context context, Cursor c) {
         super(context, c);
@@ -46,6 +46,24 @@ public class MyMovieAdapter extends CursorAdapter {
         year = (TextView) view.findViewById(R.id.yearTV);
         genre = (TextView) view.findViewById(R.id.genreTV);
         poster = (ImageView)view.findViewById(R.id.posterIV);
+       /* watched = (ImageButton) view.findViewById(R.id.imageButton3);
+
+
+        watched.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (watch) {
+                    watched.setBackgroundResource(R.drawable.watched_black);
+                    watch=true;
+                }
+                else {
+                    watched.setBackgroundResource(R.drawable.not_watched_black);
+                    watch=false;
+                }
+
+
+            }
+        });*/
 
         String y = cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN));
         String[] Year = y.split(" ");

@@ -44,7 +44,7 @@ public class InternetAddActivity extends AppCompatActivity {
     private ImageButton show;
     private String imdbID,genre, imageString;
     private CheckBox action, animation, adventure, comedy, drama, horror, western, thriller, sf, romance, crime, history, war, fantasy, bio;;
-    private int id;
+    private int id, state_watched;
     private ProgressDialog mProgressDialog;
     private Bitmap poster;
     private ImageView image;
@@ -106,7 +106,7 @@ public class InternetAddActivity extends AppCompatActivity {
 
 
     public  class DownloadMovieInfos extends AsyncTask<Object, Object, ArrayList<String>> {
-        private String URL = "http://www.omdbapi.com/?i="+ imdbID;
+        private String URL = "http://www.omdbapi.com/?i="+ imdbID+"&plot=full";
 
         @Override
         protected void onPreExecute() {
@@ -246,7 +246,7 @@ public class InternetAddActivity extends AppCompatActivity {
 
                 poster=((BitmapDrawable)image.getDrawable()).getBitmap();
                 imageString = Functions.encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
-                myMoviesSQLHelper.save(InternetAddActivity.this,id,title.getText().toString(),releaseDate.getText().toString(),year,runtime.getText().toString(),director.getText().toString(),writer.getText().toString(),genre,actors.getText().toString(),storyLine.getText().toString(),url.getText().toString(),imageString,imdbID);
+                myMoviesSQLHelper.save(InternetAddActivity.this,id,title.getText().toString(),releaseDate.getText().toString(),year,runtime.getText().toString(),director.getText().toString(),writer.getText().toString(),genre,actors.getText().toString(),storyLine.getText().toString(),url.getText().toString(),imageString,imdbID,0);
                 break;
 
             case R.id.cancel:

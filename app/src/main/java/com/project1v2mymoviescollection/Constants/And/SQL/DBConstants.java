@@ -1,11 +1,5 @@
 package com.project1v2mymoviescollection.Constants.And.SQL;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.widget.EditText;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-
 /**
  * Created by SandraMac on 15/02/2017.
  */
@@ -30,6 +24,7 @@ public class DBConstants {
     public static String ID_COLUMN = "_id";     //name of the movie's id  column
     public static String POSTER_COLUMN = "poster";      //name of the movie's poster string column
     public static String IMDB_ID_MOVIE_COLUMN="imbd_id";   // name of the movie's imdb id column
+    public static String WATCHED_COLUMN = "watched";    // Column to save the state of watched/non-watched movie
 
 
 }

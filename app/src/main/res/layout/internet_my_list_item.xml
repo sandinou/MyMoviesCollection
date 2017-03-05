@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:weightSum="3"
-    android:layout_height="wrap_content">
+    android:layout_height="100dp">
 
 
     <ImageView
-        android:layout_width="0dp"
-        android:layout_height="100dp"
         android:id="@+id/imageView2"
         android:layout_weight="1"
-        android:scaleType="fitCenter"
-        android:layout_gravity="center"
-        android:contentDescription="@string/movie_poster" />
+        android:contentDescription="@string/movie_poster"
+        android:layout_height="100dp"
+        android:layout_width="0dp"
+        android:scaleType="fitCenter" />
 
     <LinearLayout
         android:orientation="vertical"

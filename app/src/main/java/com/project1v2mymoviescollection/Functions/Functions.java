@@ -6,32 +6,17 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
-import android.os.NetworkOnMainThreadException;
 import android.util.Base64;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project1v2mymoviescollection.Activities.InternetAddActivity;
-import com.project1v2mymoviescollection.Activities.InternetSearchActivity;
-import com.project1v2mymoviescollection.Activities.ManuallyAddEditMovieActivity;
 import com.project1v2mymoviescollection.Constants.And.SQL.DBConstants;
-import com.project1v2mymoviescollection.R;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 /**
@@ -50,7 +35,7 @@ public class Functions {
      */
     public static void share(Context context, Cursor cursor){
 
-       cursor.moveToFirst();
+        cursor.moveToFirst();
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, MovieInformations(cursor));
@@ -199,6 +184,10 @@ public class Functions {
         return time;
     }
 
+   /* public static String hoursInMinutes(String time){
+
+    }*/
+
 
     /**
      * Function to set the month in the releaseDate for InternetAddActivity
@@ -333,6 +322,11 @@ public class Functions {
         edit.putExtra("id",adapter.getItem(position).getId());
         edit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(edit);
+    }
+
+
+    public static void nextPage(){
+
     }
 
 

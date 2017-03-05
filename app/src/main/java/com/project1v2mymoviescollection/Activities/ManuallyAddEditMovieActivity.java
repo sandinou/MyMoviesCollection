@@ -49,13 +49,13 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
     private ImageView image;
     private ImageButton show;
     private ImageButton photo;
-    private int id, year;
+    private int id, year, state_watched;
     private Bitmap poster;
     private ProgressDialog mProgressDialog;
     private CheckBox action, animation, adventure, comedy, drama, horror, western, thriller, sf, romance, crime, history, war, fantasy, bio;
     private MyMoviesSQLHelper myMoviesSQLHelper;
     public Cursor cursor;
-    public int currentPosition = 0;
+    public int currentPosition = 0, watched_state;
 
 
     @Override
@@ -107,8 +107,12 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
         cursor = myMoviesSQLHelper.getReadableDatabase().query(DBConstants.TABLE_NAME, null, DBConstants.ID_COLUMN + "=?", new String[]{" " + id}, null, null, null);
         cursor.moveToPosition(currentPosition);
 
-        if (id != -1)
-            MyMoviesSQLHelper.editMovie(cursor, title, releaseDate, runtime, director, writer, genre2, actors, storyLine, url, imageString, image, action, animation, adventure, comedy, drama, horror, western, thriller, romance, sf, crime, history, war, fantasy, bio, image);
+        if (id != -1) {
+            myMoviesSQLHelper.editMovie(cursor, title, releaseDate, runtime, director, writer, genre2, actors, storyLine, url, imageString, action, animation, adventure, comedy, drama, horror, western, thriller, romance, sf, crime, history, war, fantasy, bio, image);
+            watched_state=cursor.getInt(cursor.getColumnIndex(DBConstants.WATCHED_COLUMN));
+        }
+        else
+            watched_state=0;
 
         setTitle(title.getText().toString());
 
@@ -192,7 +196,7 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
                     }
 
                     imageString = Functions.encodeToBase64(poster, Bitmap.CompressFormat.JPEG, 100);
-                    myMoviesSQLHelper.save(ManuallyAddEditMovieActivity.this, id, title.getText().toString(), releaseDate.getText().toString(), year, runtime.getText().toString(), director.getText().toString(), writer.getText().toString(), genre1, actors.getText().toString(), storyLine.getText().toString(), url.getText().toString(), imageString, imdbId);
+                    myMoviesSQLHelper.save(ManuallyAddEditMovieActivity.this, id, title.getText().toString(), releaseDate.getText().toString(), year, runtime.getText().toString(), director.getText().toString(), writer.getText().toString(), genre1, actors.getText().toString(), storyLine.getText().toString(), url.getText().toString(), imageString, imdbId,watched_state);
                 }
                 break;
             case R.id.cancel:

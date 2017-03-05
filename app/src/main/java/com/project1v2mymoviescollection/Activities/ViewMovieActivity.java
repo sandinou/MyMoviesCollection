@@ -3,14 +3,15 @@ package com.project1v2mymoviescollection.Activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,11 +25,13 @@ public class ViewMovieActivity extends AppCompatActivity {
 
     private TextView date,runtime,director,writer,actors,genre,story;
     private ImageView affiche;
-    private int id;
+    private int id, watched_state;
     private String imageString;
     public  int currentPosition = 0;
     private MyMoviesSQLHelper myMoviesSQLHelper;
     public Cursor cursor;
+    private ImageButton watchedIB;
+    private boolean watch=true;
 
 
 
@@ -47,6 +50,7 @@ public class ViewMovieActivity extends AppCompatActivity {
         story = (TextView)findViewById(R.id.storyTV);
        // poster = (ImageView)findViewById(R.id.posterIV);
         affiche  =(ImageView) findViewById(R.id.afficheIV);
+        watchedIB = (ImageButton) findViewById(R.id.watched_state);
 
         id = getIntent().getIntExtra("_id",-1);
         currentPosition = getIntent().getIntExtra("position",1);
@@ -55,9 +59,29 @@ public class ViewMovieActivity extends AppCompatActivity {
         cursor = myMoviesSQLHelper.getReadableDatabase().query(DBConstants.TABLE_NAME,null,DBConstants.ID_COLUMN+"=?",new String[]{" "+id},null,null,null);
         cursor.moveToFirst();
 
-        MyMoviesSQLHelper.view(date,runtime,director,writer,genre,actors,story,imageString,cursor, affiche);
+        myMoviesSQLHelper.view(date,runtime,director,writer,genre,actors,story,imageString,cursor, affiche,watchedIB);
 
         setTitle(cursor.getString(cursor.getColumnIndex(DBConstants.TITLE_COLUMN)));
+
+        watchedIB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (watch==false){
+                    watchedIB.setImageResource(R.drawable.not_watched_red);
+                    watch=true;
+                    watched_state=0;
+                }
+                else{
+                    watchedIB.setImageResource(R.drawable.watched_red);
+                    watch=false;
+                    watched_state=1;
+                }
+                myMoviesSQLHelper.save(ViewMovieActivity.this,id,cursor.getString(cursor.getColumnIndex(DBConstants.TITLE_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN)),cursor.getInt(cursor.getColumnIndex(DBConstants.YEAR_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.DIRECTOR_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.WRITER_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.GENRE_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.ACTORS_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.STORY_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.URL_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.IMDB_ID_MOVIE_COLUMN)),watched_state);
+
+            }
+        });
+
     }
 
 
@@ -106,7 +130,6 @@ public class ViewMovieActivity extends AppCompatActivity {
                 alertDialog.show();
                 TextView textView = (TextView) alertDialog.findViewById(android.R.id.message);
                 textView.setTextSize(18);
-
             break;
 
             case R.id.shareItem:

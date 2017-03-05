@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,7 +40,9 @@ public class InternetSearchActivity extends AppCompatActivity {
     private ImageButton searchBtn;
     private InternetMovieAdapter adapter;
     private ListView listView;
-    private String t = "";
+    private String t = "", r="", message="";
+    private int result=0;
+    ArrayList<MyMovie> movie = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -101,15 +102,9 @@ public class InternetSearchActivity extends AppCompatActivity {
 
                 if (!t.trim().equals("")) {
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            DownloadMovieTitle downloadMovieTitle = new DownloadMovieTitle();
-                            downloadMovieTitle.execute();
-                            listView.setAdapter(adapter);
-                        }
-                    }, 5000);
-
+                    DownloadMovieTitle downloadMovieTitle = new DownloadMovieTitle();
+                    downloadMovieTitle.execute();
+                    listView.setAdapter(adapter);
 
                 }
                 else {
@@ -150,7 +145,6 @@ public class InternetSearchActivity extends AppCompatActivity {
 
         private String URL = "http://www.omdbapi.com/?s="+t+"&type=movie";
         private ProgressDialog mProgressDialog;
-        ArrayList<MyMovie> movie = new ArrayList<>();
 
         @Override
         protected void onPreExecute() {
@@ -191,12 +185,28 @@ public class InternetSearchActivity extends AppCompatActivity {
                 }
 
                 JSONObject root = new JSONObject(builder.toString());
-                JSONArray list = root.getJSONArray("Search");
-                for (int i = 0; i < list.length(); i++) {
-                    JSONObject current = list.getJSONObject(i);
-                    movie.add(new MyMovie(current.getString("Title").toUpperCase(), current.getString("Poster"), current.getString("Year"), current.getString("imdbID")));
+               // r = root.getString("response");
+                if (root.getString("Response").equals("True")) {
+                    result = Integer.parseInt(root.getString("totalResults"));
+
+                  //  if (result<=10){
+                        JSONArray list = root.getJSONArray("Search");
+                        for (int i = 0; i < list.length(); i++) {
+                            JSONObject current = list.getJSONObject(i);
+                            movie.add(new MyMovie(current.getString("Title").toUpperCase(), current.getString("Poster"), current.getString("Year"), current.getString("imdbID")));
+                            message = "test: " + result + " ...";
+                        }
+                    //}
+
+                    //else {
+
+                    //}
+
+                    return movie;
                 }
-                return movie;
+                else{
+                    message = "This movie isn't in our database";
+                }
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -217,7 +227,10 @@ public class InternetSearchActivity extends AppCompatActivity {
             super.onPostExecute(resultJSON);
 
             if (resultJSON.isEmpty())
-                Toast.makeText(InternetSearchActivity.this, "This movie isn't in our database", Toast.LENGTH_SHORT).show();
+                Toast.makeText(InternetSearchActivity.this,message, Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(InternetSearchActivity.this,message, Toast.LENGTH_SHORT).show();
+
 
             adapter.clear();
             adapter.addAll(resultJSON);
