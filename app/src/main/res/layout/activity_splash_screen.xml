@@ -5,25 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.project1v2mymoviescollection.Activities.SplashScreenActivity"
-    android:background="#000000">
+    android:background="@drawable/fond2">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/imglogo"
-        android:src="@drawable/movies_icon"
-        android:scaleType="fitCenter"
-        android:contentDescription="@string/splashscreen_image" />
+        android:src="@drawable/splash"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/splashscreen_image"
+        android:layout_marginTop="30dp" />
 
     <TextView
         android:text="@string/my_movies_collection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
-        android:textColor="#ffffff"
+        android:textColor="#b30000"
         android:textSize="36sp"
         android:gravity="center"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="20dp" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
