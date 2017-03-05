@@ -7,9 +7,9 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
         android:weightSum="2"
-        android:background="@drawable/listview_drawable">
+        android:background="@drawable/listview_drawable"
+        android:layout_height="150dp">
 
         <ImageView
             android:id="@+id/posterIV"
