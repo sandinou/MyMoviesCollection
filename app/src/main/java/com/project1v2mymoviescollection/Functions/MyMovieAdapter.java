@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project1v2mymoviescollection.Constants.And.SQL.DBConstants;
+import com.project1v2mymoviescollection.Constants.And.SQL.MyMoviesSQLHelper;
 import com.project1v2mymoviescollection.R;
 
 /**
@@ -24,8 +25,11 @@ public class MyMovieAdapter extends CursorAdapter {
     private TextView genre;
     private TextView year;
     private ImageView poster;
-    private ImageButton watched;
+    private ImageButton watchedView;
     private boolean watch = false;
+    private int watched,id;
+    private MyMoviesSQLHelper myMoviesSQLHelper;
+
 
     public MyMovieAdapter(Context context, Cursor c) {
         super(context, c);
@@ -41,29 +45,14 @@ public class MyMovieAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        //view.setBackgroundColor(Color.parseColor("#000000"));
         title = (TextView)view.findViewById(R.id.titleTV);
         year = (TextView) view.findViewById(R.id.yearTV);
         genre = (TextView) view.findViewById(R.id.genreTV);
         poster = (ImageView)view.findViewById(R.id.posterIV);
-       /* watched = (ImageButton) view.findViewById(R.id.imageButton3);
+        watchedView = (ImageButton) view.findViewById(R.id.imageButton2);
+        //id = getIntent().getIntExtra("_id", -1);
+      //  id=cursor.getPosition();
 
-
-        watched.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (watch) {
-                    watched.setBackgroundResource(R.drawable.watched_black);
-                    watch=true;
-                }
-                else {
-                    watched.setBackgroundResource(R.drawable.not_watched_black);
-                    watch=false;
-                }
-
-
-            }
-        });*/
 
         String y = cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN));
         String[] Year = y.split(" ");
@@ -83,8 +72,16 @@ public class MyMovieAdapter extends CursorAdapter {
             Bitmap bitmap = Functions.decodeBase64(image);
             poster.setImageBitmap(bitmap);
         }
+        watched=cursor.getInt(cursor.getColumnIndex(DBConstants.WATCHED_COLUMN));
+        if (watched==0)
+            watchedView.setImageResource(R.drawable.not_watched_black);
+        else
+            watchedView.setImageResource(R.drawable.watched_black);
 
-       // else poster.setImageResource(R.drawable.movies_icon);
+
+
+
+
     }
 
 

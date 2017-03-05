@@ -7,9 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -89,6 +89,8 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
         } else
             db.update(DBConstants.TABLE_NAME, contentValues, "_id=?", new String[]{"" + id});
 
+
+
         if (!(context instanceof ViewMovieActivity)){
             Intent finish = new Intent(context, MainActivity.class);
             finish.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -110,7 +112,7 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
      * @param cursor
      * @param watched_Or_Not
      */
-    public static void view(TextView date, TextView runtime, TextView director, TextView writer, TextView genre, TextView actors, TextView story, String imageString, Cursor cursor, ImageView affiche, ImageButton watched_Or_Not) {
+    public static void view(TextView date, TextView runtime, TextView director, TextView writer, TextView genre, TextView actors, TextView story, String imageString, Cursor cursor, ImageView affiche, Button watched_Or_Not) {
 
         date.setText(cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN)));
         runtime.setText(Functions.minutesInHours(cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN))));
@@ -123,9 +125,9 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
         Bitmap myBitmapAgain = Functions.decodeBase64(imageString);
         affiche.setImageBitmap(myBitmapAgain);
         if (cursor.getInt(cursor.getColumnIndex(DBConstants.WATCHED_COLUMN))==0)
-            watched_Or_Not.setImageResource(R.drawable.not_watched_red);
+            watched_Or_Not.setBackgroundResource(R.drawable.not_watched_red);
         else
-            watched_Or_Not.setImageResource(R.drawable.watched_red);
+            watched_Or_Not.setBackgroundResource(R.drawable.watched_red);
 
 
 

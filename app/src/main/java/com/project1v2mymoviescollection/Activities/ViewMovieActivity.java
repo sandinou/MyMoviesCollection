@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class ViewMovieActivity extends AppCompatActivity {
     public Cursor cursor;
     private ImageButton watchedIB;
     private boolean watch=true;
+    private Button button;
 
 
 
@@ -40,7 +42,6 @@ public class ViewMovieActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_movie);
 
-       // title = (TextView)findViewById(R.id.titleTV);
         date = (TextView)findViewById(R.id.dateTV);
         runtime = (TextView)findViewById(R.id.runtimeTV);
         director = (TextView)findViewById(R.id.directorTV);
@@ -48,9 +49,9 @@ public class ViewMovieActivity extends AppCompatActivity {
         actors = (TextView)findViewById(R.id.actorsTV);
         genre = (TextView)findViewById(R.id.genreTV);
         story = (TextView)findViewById(R.id.storyTV);
-       // poster = (ImageView)findViewById(R.id.posterIV);
         affiche  =(ImageView) findViewById(R.id.afficheIV);
-        watchedIB = (ImageButton) findViewById(R.id.watched_state);
+        //watchedIB = (ImageButton) findViewById(R.id.watched_state);
+        button = (Button)findViewById(R.id.button3);
 
         id = getIntent().getIntExtra("_id",-1);
         currentPosition = getIntent().getIntExtra("position",1);
@@ -59,24 +60,26 @@ public class ViewMovieActivity extends AppCompatActivity {
         cursor = myMoviesSQLHelper.getReadableDatabase().query(DBConstants.TABLE_NAME,null,DBConstants.ID_COLUMN+"=?",new String[]{" "+id},null,null,null);
         cursor.moveToFirst();
 
-        myMoviesSQLHelper.view(date,runtime,director,writer,genre,actors,story,imageString,cursor, affiche,watchedIB);
+        myMoviesSQLHelper.view(date,runtime,director,writer,genre,actors,story,imageString,cursor, affiche,button);
 
         setTitle(cursor.getString(cursor.getColumnIndex(DBConstants.TITLE_COLUMN)));
 
-        watchedIB.setOnClickListener(new View.OnClickListener() {
+
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (watch==false){
-                    watchedIB.setImageResource(R.drawable.not_watched_red);
+                    button.setBackgroundResource(R.drawable.not_watched_red);
                     watch=true;
                     watched_state=0;
                 }
                 else{
-                    watchedIB.setImageResource(R.drawable.watched_red);
+                    button.setBackgroundResource(R.drawable.watched_red);
                     watch=false;
                     watched_state=1;
                 }
+                myMoviesSQLHelper=new MyMoviesSQLHelper(ViewMovieActivity.this);
+
                 myMoviesSQLHelper.save(ViewMovieActivity.this,id,cursor.getString(cursor.getColumnIndex(DBConstants.TITLE_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN)),cursor.getInt(cursor.getColumnIndex(DBConstants.YEAR_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.DIRECTOR_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.WRITER_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.GENRE_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.ACTORS_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.STORY_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.URL_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.IMDB_ID_MOVIE_COLUMN)),watched_state);
 
             }

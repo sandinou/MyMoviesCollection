@@ -11,7 +11,7 @@ import com.project1v2mymoviescollection.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private static int TIME_OUT = 2000;
+    private static int TIME_OUT = 1000;
     private ProgressBar spinner;
 
     @Override

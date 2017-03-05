@@ -44,7 +44,7 @@ public class InternetAddActivity extends AppCompatActivity {
     private ImageButton show;
     private String imdbID,genre, imageString;
     private CheckBox action, animation, adventure, comedy, drama, horror, western, thriller, sf, romance, crime, history, war, fantasy, bio;;
-    private int id, state_watched;
+    private int id;
     private ProgressDialog mProgressDialog;
     private Bitmap poster;
     private ImageView image;
