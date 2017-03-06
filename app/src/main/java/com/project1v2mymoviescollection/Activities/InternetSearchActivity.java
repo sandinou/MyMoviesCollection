@@ -171,10 +171,15 @@ public class InternetSearchActivity extends AppCompatActivity {
                 URL url = new URL(String.format(URL));//http://www.omdbapi.com/?s=forrest+gump&type=movie
                 connection = (HttpURLConnection) url.openConnection();
 
-                if(connection.getResponseCode() != HttpURLConnection.HTTP_OK)
-                // return "Error from server!";
-                        //return movie;
+                if(connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                    // return "Error from server!";
+                    //return movie;
+                    message = "Problem with your connection, please try later";
                     return null;
+                }
+                else
+                    message = "Problem with your connection, please try later";
+
 
                 reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = reader.readLine();
@@ -215,8 +220,11 @@ public class InternetSearchActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             } finally {
-                if(connection!=null)
+                if(connection!=null) {
+                   // message = "Problem with your connection, please try later";
+
                     connection.disconnect();
+                }
             }
             //return null;
             return movie;

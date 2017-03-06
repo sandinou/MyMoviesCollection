@@ -1,5 +1,6 @@
 package com.project1v2mymoviescollection.Activities;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -26,8 +27,8 @@ public class ViewMovieActivity extends AppCompatActivity {
 
     private TextView date,runtime,director,writer,actors,genre,story;
     private ImageView affiche;
-    private int id, watched_state;
-    private String imageString;
+    private int id;
+    private String imageString,watched_state;
     public  int currentPosition = 0;
     private MyMoviesSQLHelper myMoviesSQLHelper;
     public Cursor cursor;
@@ -50,7 +51,6 @@ public class ViewMovieActivity extends AppCompatActivity {
         genre = (TextView)findViewById(R.id.genreTV);
         story = (TextView)findViewById(R.id.storyTV);
         affiche  =(ImageView) findViewById(R.id.afficheIV);
-        //watchedIB = (ImageButton) findViewById(R.id.watched_state);
         button = (Button)findViewById(R.id.button3);
 
         id = getIntent().getIntExtra("_id",-1);
@@ -64,6 +64,12 @@ public class ViewMovieActivity extends AppCompatActivity {
 
         setTitle(cursor.getString(cursor.getColumnIndex(DBConstants.TITLE_COLUMN)));
 
+        watched_state=cursor.getString(cursor.getColumnIndex(DBConstants.WATCHED_COLUMN));
+
+     /*   if (watched_state.equals("0"))
+            button.setBackgroundResource(R.drawable.not_watched_black);
+        else
+            button.setBackgroundResource(R.drawable.watched_black);*/
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,22 +77,30 @@ public class ViewMovieActivity extends AppCompatActivity {
                 if (watch==false){
                     button.setBackgroundResource(R.drawable.not_watched_red);
                     watch=true;
-                    watched_state=0;
+                    watched_state="0";
                 }
                 else{
                     button.setBackgroundResource(R.drawable.watched_red);
                     watch=false;
-                    watched_state=1;
+                    watched_state="1";
                 }
-                myMoviesSQLHelper=new MyMoviesSQLHelper(ViewMovieActivity.this);
 
-                myMoviesSQLHelper.save(ViewMovieActivity.this,id,cursor.getString(cursor.getColumnIndex(DBConstants.TITLE_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN)),cursor.getInt(cursor.getColumnIndex(DBConstants.YEAR_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.DIRECTOR_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.WRITER_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.GENRE_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.ACTORS_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.STORY_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.URL_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN)),cursor.getString(cursor.getColumnIndex(DBConstants.IMDB_ID_MOVIE_COLUMN)),watched_state);
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DBConstants.WATCHED_COLUMN,watched_state);
+                myMoviesSQLHelper.getWritableDatabase().update(DBConstants.TABLE_NAME, contentValues, "_id=?", new String[]{"" + id});
 
             }
         });
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent finish = new Intent(this, MainActivity.class);
+        finish.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(finish);
+    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {

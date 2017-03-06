@@ -243,6 +243,8 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
         @Override
         public void onPostExecute(Boolean result) {
 
+
+
             if (result)
                 Picasso.with(ManuallyAddEditMovieActivity.this).load(url.getText().toString()).into(image);
 

@@ -39,7 +39,7 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
                 + DBConstants.DIRECTOR_COLUMN+" TEXT, "+ DBConstants.STORY_COLUMN+" TEXT, "
                 + DBConstants.URL_COLUMN+" TEXT, "+ DBConstants.WRITER_COLUMN+" TEXT, "
                 + DBConstants.ACTORS_COLUMN+" TEXT, "+ DBConstants.GENRE_COLUMN+" TEXT, "
-                + DBConstants.POSTER_COLUMN+" TEXT, "+DBConstants.IMDB_ID_MOVIE_COLUMN+" TEXT, "+DBConstants.WATCHED_COLUMN+" INTEGER)");
+                + DBConstants.POSTER_COLUMN+" TEXT, "+DBConstants.IMDB_ID_MOVIE_COLUMN+" TEXT, "+DBConstants.WATCHED_COLUMN+" TEXT)");
 
     }
 
@@ -92,10 +92,18 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
 
 
         if (!(context instanceof ViewMovieActivity)){
+
             Intent finish = new Intent(context, MainActivity.class);
             finish.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(finish);
         }
+
+        try {
+            finalize();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+
     }
 
 
@@ -128,8 +136,6 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
             watched_Or_Not.setBackgroundResource(R.drawable.not_watched_red);
         else
             watched_Or_Not.setBackgroundResource(R.drawable.watched_red);
-
-
 
     }
 
@@ -188,6 +194,13 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
 
         Bitmap myBitmapAgain = Functions.decodeBase64(imageString);
         poster.setImageBitmap(myBitmapAgain);
+    }
+
+
+    @Override
+    protected void finalize() throws Throwable {
+        this.close();
+        super.finalize();
     }
 
 }

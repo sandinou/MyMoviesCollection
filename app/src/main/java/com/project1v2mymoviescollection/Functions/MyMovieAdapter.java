@@ -1,5 +1,6 @@
 package com.project1v2mymoviescollection.Functions;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -27,8 +28,9 @@ public class MyMovieAdapter extends CursorAdapter {
     private ImageView poster;
     private ImageButton watchedView;
     private boolean watch = false;
-    private int watched,id;
+    private String watched;
     private MyMoviesSQLHelper myMoviesSQLHelper;
+    int id;
 
 
     public MyMovieAdapter(Context context, Cursor c) {
@@ -43,16 +45,17 @@ public class MyMovieAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(final View view, final Context context, final Cursor cursor) {
 
         title = (TextView)view.findViewById(R.id.titleTV);
         year = (TextView) view.findViewById(R.id.yearTV);
         genre = (TextView) view.findViewById(R.id.genreTV);
         poster = (ImageView)view.findViewById(R.id.posterIV);
         watchedView = (ImageButton) view.findViewById(R.id.imageButton2);
-        //id = getIntent().getIntExtra("_id", -1);
-      //  id=cursor.getPosition();
 
+        myMoviesSQLHelper = new MyMoviesSQLHelper(context);
+
+        watchedView.setTag(R.id.imageButton2,cursor.getInt(cursor.getColumnIndex(DBConstants.ID_COLUMN)));
 
         String y = cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN));
         String[] Year = y.split(" ");
@@ -72,17 +75,37 @@ public class MyMovieAdapter extends CursorAdapter {
             Bitmap bitmap = Functions.decodeBase64(image);
             poster.setImageBitmap(bitmap);
         }
-        watched=cursor.getInt(cursor.getColumnIndex(DBConstants.WATCHED_COLUMN));
-        if (watched==0)
+
+
+        watched=cursor.getString(cursor.getColumnIndex(DBConstants.WATCHED_COLUMN));
+        if (watched.equals("0"))
             watchedView.setImageResource(R.drawable.not_watched_black);
         else
             watchedView.setImageResource(R.drawable.watched_black);
 
+        watchedView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                if (watched=="0"){
+                    watchedView.setImageResource(R.drawable.watched_black);
+                    watched="1";
+                    id= (int) v.getTag(R.id.imageButton2);
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(DBConstants.WATCHED_COLUMN,watched);
+                    myMoviesSQLHelper.getWritableDatabase().update(DBConstants.TABLE_NAME, contentValues, "_id=?", new String[]{"" + id});
+                }
+                else {
+                    watchedView.setImageResource(R.drawable.not_watched_black);
+                    watched="0";
+                    id= (int) v.getTag(R.id.imageButton2);
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(DBConstants.WATCHED_COLUMN,watched);
+                    myMoviesSQLHelper.getWritableDatabase().update(DBConstants.TABLE_NAME, contentValues, "_id=?", new String[]{"" + id});
+                }
 
-
-
+            }
+        });
     }
-
 
 }

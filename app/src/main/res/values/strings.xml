@@ -58,5 +58,6 @@
     <string name="year">Year</string>
     <string name="search_image">search image</string>
     <string name="string_sort_from_oldest_to_newest" />
+    <string name="watched_state">watched_state</string>
 
 </resources>
