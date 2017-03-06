@@ -2,6 +2,7 @@ package com.project1v2mymoviescollection.Functions;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.project1v2mymoviescollection.Activities.PosterFullScreenActivity;
 import com.project1v2mymoviescollection.Constants.And.SQL.DBConstants;
 import com.project1v2mymoviescollection.Constants.And.SQL.MyMoviesSQLHelper;
 import com.project1v2mymoviescollection.R;
@@ -26,11 +28,10 @@ public class MyMovieAdapter extends CursorAdapter {
     private TextView genre;
     private TextView year;
     private ImageView poster;
-    private ImageButton watchedView;
-    private boolean watch = false;
+ //   private ImageButton watchedView;
     private String watched;
     private MyMoviesSQLHelper myMoviesSQLHelper;
-    int id;
+
 
 
     public MyMovieAdapter(Context context, Cursor c) {
@@ -47,15 +48,18 @@ public class MyMovieAdapter extends CursorAdapter {
     @Override
     public void bindView(final View view, final Context context, final Cursor cursor) {
 
+        myMoviesSQLHelper = new MyMoviesSQLHelper(context);
+
         title = (TextView)view.findViewById(R.id.titleTV);
         year = (TextView) view.findViewById(R.id.yearTV);
         genre = (TextView) view.findViewById(R.id.genreTV);
         poster = (ImageView)view.findViewById(R.id.posterIV);
+        final ImageButton watchedView;
         watchedView = (ImageButton) view.findViewById(R.id.imageButton2);
 
-        myMoviesSQLHelper = new MyMoviesSQLHelper(context);
-
         watchedView.setTag(R.id.imageButton2,cursor.getInt(cursor.getColumnIndex(DBConstants.ID_COLUMN)));
+        poster.setTag(R.id.posterIV,cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN)));
+
 
         String y = cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN));
         String[] Year = y.split(" ");
@@ -72,7 +76,7 @@ public class MyMovieAdapter extends CursorAdapter {
         year.setText(Year[Year.length-1]);
 
         if (image!=null){
-            Bitmap bitmap = Functions.decodeBase64(image);
+            Bitmap bitmap = new Functions().decodeBase64(image);
             poster.setImageBitmap(bitmap);
         }
 
@@ -87,22 +91,35 @@ public class MyMovieAdapter extends CursorAdapter {
             @Override
             public void onClick(View v) {
 
-                if (watched=="0"){
+                if (watched.equals("0")){
                     watchedView.setImageResource(R.drawable.watched_black);
                     watched="1";
-                    id= (int) v.getTag(R.id.imageButton2);
+                    int id= (int) v.getTag(R.id.imageButton2);
                     ContentValues contentValues = new ContentValues();
-                    contentValues.put(DBConstants.WATCHED_COLUMN,watched);
+                    contentValues.put(DBConstants.WATCHED_COLUMN,"1");
                     myMoviesSQLHelper.getWritableDatabase().update(DBConstants.TABLE_NAME, contentValues, "_id=?", new String[]{"" + id});
                 }
                 else {
                     watchedView.setImageResource(R.drawable.not_watched_black);
                     watched="0";
-                    id= (int) v.getTag(R.id.imageButton2);
+                    int id= (int) v.getTag(R.id.imageButton2);
                     ContentValues contentValues = new ContentValues();
-                    contentValues.put(DBConstants.WATCHED_COLUMN,watched);
+                    contentValues.put(DBConstants.WATCHED_COLUMN,"0");
                     myMoviesSQLHelper.getWritableDatabase().update(DBConstants.TABLE_NAME, contentValues, "_id=?", new String[]{"" + id});
                 }
+
+            }
+        });
+
+
+        poster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PosterFullScreenActivity.class);
+                String imageString = (String) v.getTag(R.id.posterIV);
+
+                intent.putExtra(DBConstants.POSTER_COLUMN,imageString);
+                context.startActivity(intent);
 
             }
         });

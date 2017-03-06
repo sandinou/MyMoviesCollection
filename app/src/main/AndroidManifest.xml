@@ -4,49 +4,43 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-feature android:name="android.hardware.camera" android:required="true"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@drawable/movies_icon"
         android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:hardwareAccelerated="false"
         android:largeHeap="true"
-        >
-
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <activity
             android:name=".Activities.SplashScreenActivity"
-            android:label="@string/app_name"
-           >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Activities.MainActivity" >
-
-        </activity>
-
-        <activity android:name=".Activities.ViewMovieActivity"></activity>
-
+        <activity android:name=".Activities.MainActivity"></activity>
+        <activity android:name=".Activities.ViewMovieActivity" />
         <activity
             android:name=".Activities.ManuallyAddEditMovieActivity"
             android:label="My movie"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-
-        <activity android:name=".Activities.InternetSearchActivity"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
-
-        <activity android:name=".Activities.InternetAddActivity"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".Activities.InternetSearchActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".Activities.InternetAddActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".Activities.PosterFullScreenActivity"></activity>
     </application>
 
 </manifest>

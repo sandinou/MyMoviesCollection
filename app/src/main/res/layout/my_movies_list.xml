@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
     android:background="@drawable/listview_drawable">
 
@@ -10,7 +10,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:weightSum="2"
-        android:layout_height="100dp">
+        android:layout_height="150dp">
 
         <ImageView
             android:id="@+id/posterIV"

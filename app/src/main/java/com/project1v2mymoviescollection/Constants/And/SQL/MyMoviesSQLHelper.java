@@ -65,7 +65,7 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
      * @param state_watched
      */
     public void save(Context context,int id, String title, String releaseDate, int year, String runtime,
-                            String director, String writer, String genre, String actors, String storyLine, String url, String imageString, String imdbID, int state_watched){
+                            String director, String writer, String genre, String actors, String storyLine, String url, String imageString, String imdbID, String state_watched){
 
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -120,22 +120,34 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
      * @param cursor
      * @param watched_Or_Not
      */
-    public static void view(TextView date, TextView runtime, TextView director, TextView writer, TextView genre, TextView actors, TextView story, String imageString, Cursor cursor, ImageView affiche, Button watched_Or_Not) {
+    public void view(TextView date, TextView runtime, TextView director, TextView writer, TextView genre, TextView actors, TextView story, String imageString, Cursor cursor, ImageView affiche, Button watched_Or_Not) {
 
         date.setText(cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN)));
-        runtime.setText(Functions.minutesInHours(cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN))));
+        //runtime.setText(new Functions.minutesInHours(cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN))));
+        runtime.setText(getRuntime(cursor));
         director.setText(cursor.getString(cursor.getColumnIndex(DBConstants.DIRECTOR_COLUMN)));
         writer.setText(cursor.getString(cursor.getColumnIndex(DBConstants.WRITER_COLUMN)));
         genre.setText(cursor.getString(cursor.getColumnIndex(DBConstants.GENRE_COLUMN)));
         actors.setText(cursor.getString(cursor.getColumnIndex(DBConstants.ACTORS_COLUMN)));
         story.setText(cursor.getString(cursor.getColumnIndex(DBConstants.STORY_COLUMN)));
         imageString = cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN));
-        Bitmap myBitmapAgain = Functions.decodeBase64(imageString);
+        Bitmap myBitmapAgain = returnBitmap(imageString);
         affiche.setImageBitmap(myBitmapAgain);
-        if (cursor.getInt(cursor.getColumnIndex(DBConstants.WATCHED_COLUMN))==0)
+        if (cursor.getString(cursor.getColumnIndex(DBConstants.WATCHED_COLUMN)).equals("0"))
             watched_Or_Not.setBackgroundResource(R.drawable.not_watched_red);
         else
             watched_Or_Not.setBackgroundResource(R.drawable.watched_red);
+
+    }
+    private String getRuntime(Cursor cursor){
+        String time;
+        time=new Functions().minutesInHours(cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN)));
+        return time;
+    }
+
+    private Bitmap returnBitmap(String imageString){
+        Bitmap bitmap = new Functions().decodeBase64(imageString);
+        return bitmap;
 
     }
 
@@ -169,7 +181,7 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
      * @param bio
      * @param poster
      */
-    public static void editMovie(Cursor cursor, EditText title, TextView date, EditText runtime, EditText director, EditText writer, String genre, EditText actors, EditText story, EditText url,
+    public void editMovie(Cursor cursor, EditText title, TextView date, EditText runtime, EditText director, EditText writer, String genre, EditText actors, EditText story, EditText url,
                                  String imageString, CheckBox action, CheckBox animation, CheckBox adventure, CheckBox comedy, CheckBox drama, CheckBox horror,
                                  CheckBox western, CheckBox thriller, CheckBox romance, CheckBox sf, CheckBox crime, CheckBox history, CheckBox war, CheckBox fantasy, CheckBox bio, ImageView poster){
 
@@ -179,20 +191,13 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
         director.setText(cursor.getString(cursor.getColumnIndex(DBConstants.DIRECTOR_COLUMN)));
         writer.setText(cursor.getString(cursor.getColumnIndex(DBConstants.WRITER_COLUMN)));
         genre=cursor.getString(cursor.getColumnIndex(DBConstants.GENRE_COLUMN));
-        Functions.checkedGenre(genre,action,animation,adventure,comedy,drama,horror,western,thriller,romance,sf,crime,history,war,fantasy,bio);
+        new Functions().checkedGenre(genre,action,animation,adventure,comedy,drama,horror,western,thriller,romance,sf,crime,history,war,fantasy,bio);
         actors.setText(cursor.getString(cursor.getColumnIndex(DBConstants.ACTORS_COLUMN)));
         story.setText(cursor.getString(cursor.getColumnIndex(DBConstants.STORY_COLUMN)));
         url.setText(cursor.getString(cursor.getColumnIndex(DBConstants.URL_COLUMN)));
         imageString = cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN));
-       /* if (imageString!=null) {
-            Bitmap myBitmapAgain = Functions.decodeBase64(imageString);
-            image.setImageBitmap(myBitmapAgain);
-        }
-        else {
-            image.setImageResource(R.drawable.movies_icon);
-        }*/
 
-        Bitmap myBitmapAgain = Functions.decodeBase64(imageString);
+        Bitmap myBitmapAgain = returnBitmap(imageString);
         poster.setImageBitmap(myBitmapAgain);
     }
 

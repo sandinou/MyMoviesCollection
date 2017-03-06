@@ -43,7 +43,7 @@ public class InternetAddActivity extends AppCompatActivity {
     private TextView releaseDate;
     private ImageButton show;
     private String imdbID,genre, imageString;
-    private CheckBox action, animation, adventure, comedy, drama, horror, western, thriller, sf, romance, crime, history, war, fantasy, bio;;
+    private CheckBox action, animation, adventure, comedy, drama, horror, western, thriller, sf, romance, crime, history, war, fantasy, bio;
     private int id;
     private ProgressDialog mProgressDialog;
     private Bitmap poster;
@@ -156,7 +156,7 @@ public class InternetAddActivity extends AppCompatActivity {
                 String date = root.getString("Released");
                 if(!date.equals("N/A")) {
                     String[] d = date.split(" ");
-                    data.add(d[0] + " " + Functions.setMonth(d[1]) + " " + d[2]);
+                    data.add(d[0] + " "+new Functions().setMonth(d[1])+" "+d[2]);
                 }
                 else data.add("N/A");
                 /*2*/
@@ -176,7 +176,7 @@ public class InternetAddActivity extends AppCompatActivity {
                 /*8*/
                 String s = root.getString("Genre");
                 String[]S = s.split(",");
-                data.add(Functions.setGenre(S));
+                data.add(new Functions().setGenre(S));
 
                 return data;
 
@@ -215,7 +215,7 @@ public class InternetAddActivity extends AppCompatActivity {
                 }
                 genre = resultJSON.get(8).toString();
 
-                Functions.checkedGenre(genre,action,animation,adventure,comedy,drama,horror,western,thriller,romance,sf,crime,history,war,fantasy,bio);
+                new Functions().checkedGenre(genre,action,animation,adventure,comedy,drama,horror,western,thriller,romance,sf,crime,history,war,fantasy,bio);
                 setTitle(title.getText().toString());
                 mProgressDialog.dismiss();
             }
@@ -245,8 +245,8 @@ public class InternetAddActivity extends AppCompatActivity {
                 else year=0;
 
                 poster=((BitmapDrawable)image.getDrawable()).getBitmap();
-                imageString = Functions.encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
-                myMoviesSQLHelper.save(InternetAddActivity.this,id,title.getText().toString(),releaseDate.getText().toString(),year,runtime.getText().toString(),director.getText().toString(),writer.getText().toString(),genre,actors.getText().toString(),storyLine.getText().toString(),url.getText().toString(),imageString,imdbID,0);
+                imageString = new Functions().encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
+                myMoviesSQLHelper.save(InternetAddActivity.this,id,title.getText().toString(),releaseDate.getText().toString(),year,runtime.getText().toString(),director.getText().toString(),writer.getText().toString(),genre,actors.getText().toString(),storyLine.getText().toString(),url.getText().toString(),imageString,imdbID,"0");
                 break;
 
             case R.id.cancel:

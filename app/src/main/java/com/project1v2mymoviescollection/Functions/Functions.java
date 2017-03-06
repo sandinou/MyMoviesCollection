@@ -33,7 +33,7 @@ public class Functions {
      * @param cursor
 
      */
-    public static void share(Context context, Cursor cursor){
+    public void share(Context context, Cursor cursor){
 
         cursor.moveToFirst();
         Intent sendIntent = new Intent();
@@ -64,7 +64,7 @@ public class Functions {
      * @param fantasy
      * @param bio
      */
-    public static void checkedGenre(String genre, CheckBox action, CheckBox animation, CheckBox adventure, CheckBox comedy, CheckBox drama, CheckBox horror,
+    public void checkedGenre(String genre, CheckBox action, CheckBox animation, CheckBox adventure, CheckBox comedy, CheckBox drama, CheckBox horror,
                                     CheckBox western, CheckBox thriller, CheckBox romance, CheckBox sf, CheckBox crime, CheckBox history, CheckBox war, CheckBox fantasy, CheckBox bio){
         if (genre != null) {
             if (genre.contains("Action"))
@@ -120,7 +120,7 @@ public class Functions {
      * @param bio
      * @return
      */
-    public static String setGenre(CheckBox action, CheckBox adventure, CheckBox animation, CheckBox comedy, CheckBox drama, CheckBox horror, CheckBox western, CheckBox thriller, CheckBox sf,
+    public String setGenre(CheckBox action, CheckBox adventure, CheckBox animation, CheckBox comedy, CheckBox drama, CheckBox horror, CheckBox western, CheckBox thriller, CheckBox sf,
                                   CheckBox romance, CheckBox crime, CheckBox history, CheckBox war, CheckBox fantasy, CheckBox bio) {
 
         ArrayList<String> categories= new ArrayList<>();
@@ -170,7 +170,7 @@ public class Functions {
      * @param num
      * @return string time
      */
-    public static String minutesInHours(String num){
+    public String minutesInHours(String num){
 
         String time="";
         int mins,h,hours;
@@ -184,17 +184,13 @@ public class Functions {
         return time;
     }
 
-   /* public static String hoursInMinutes(String time){
-
-    }*/
-
 
     /**
      * Function to set the month in the releaseDate for InternetAddActivity
      * @param month
      * @return new month
      */
-    public static String setMonth(String month){
+    public String setMonth(String month){
         switch (month){
             case "Jan":
                 month="January";
@@ -239,7 +235,7 @@ public class Functions {
      * @param s
      * @return string genre
      */
-    public static String setGenre(String[] s){
+    public String setGenre(String[] s){
         String genre="";
         for (int i=0;i<s.length;i++){
             if (s[i].contains("Sci-Fi"))
@@ -258,7 +254,7 @@ public class Functions {
      * @param quality
      * @return string
      */
-    public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
+    public String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
         ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
         image.compress(compressFormat, quality, byteArrayOS);
         return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
@@ -269,7 +265,7 @@ public class Functions {
      * @param input
      * @return bitmap
      */
-    public static Bitmap decodeBase64(String input) {
+    public Bitmap decodeBase64(String input) {
         byte[] decodedBytes = Base64.decode(input, 0);
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
@@ -280,7 +276,7 @@ public class Functions {
      * @param cursor
      * @return info
      */
-    public static String MovieInformations(Cursor cursor){
+    public String MovieInformations(Cursor cursor){
         String id = cursor.getString(cursor.getColumnIndex(DBConstants.IMDB_ID_MOVIE_COLUMN));
         String URL;
         if (id!=null)
@@ -288,7 +284,7 @@ public class Functions {
         else{
             URL="TITLE:\t"+cursor.getString(cursor.getColumnIndex(DBConstants.TITLE_COLUMN))
                     +"\nRelease date:\t"+cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN))
-                    +"\nRuntime:\t"+ Functions.minutesInHours(cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN)))
+                    +"\nRuntime: \t+ "+minutesInHours(cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN)))
                     +"\nDirector:\t"+cursor.getString(cursor.getColumnIndex(DBConstants.DIRECTOR_COLUMN))
                     +"\nWriter:\t"+cursor.getString(cursor.getColumnIndex(DBConstants.WRITER_COLUMN))
                     +"\nActors:\t"+cursor.getString(cursor.getColumnIndex(DBConstants.ACTORS_COLUMN))
@@ -300,7 +296,7 @@ public class Functions {
     }
 
 
-    public static String setDate(int dayOfMonth,int month, int year, String date){
+    public String setDate(int dayOfMonth,int month, int year, String date){
         String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         String mon=MONTHS[month];
         date = dayOfMonth+" "+mon+" "+year;
@@ -308,7 +304,7 @@ public class Functions {
         return date;
     }
 
-    public static void URLEmpty(Context context, String message){
+    public void URLEmpty(Context context, String message){
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         //the default toast view group is a relativelayout
         LinearLayout toastLayout = (LinearLayout) toast.getView();
@@ -317,7 +313,7 @@ public class Functions {
         toast.show();
     }
 
-    public static void addMovieFromInternet(Context context, InternetMovieAdapter adapter, int position){
+    public void addMovieFromInternet(Context context, InternetMovieAdapter adapter, int position){
         Intent edit = new Intent(context,InternetAddActivity.class);
         edit.putExtra("id",adapter.getItem(position).getId());
         edit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

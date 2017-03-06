@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 cursor.moveToPosition(position);
+                view.setBackgroundColor(Color.parseColor("#b30000"));
                 Intent viewIntent = new Intent(MainActivity.this,ViewMovieActivity.class);
                 viewIntent.putExtra("_id",cursor.getInt(cursor.getColumnIndex(DBConstants.ID_COLUMN)));
                 viewIntent.putExtra("position",position);
@@ -186,11 +188,15 @@ public class MainActivity extends AppCompatActivity {
                 cursor.moveToPosition(currentPosition);
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, Functions.MovieInformations(cursor));
+                sendIntent.putExtra(Intent.EXTRA_TEXT,MoviesInfos(cursor));
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
                 break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    public String MoviesInfos(Cursor cursor){
+        return new Functions().MovieInformations(cursor);
     }
 }

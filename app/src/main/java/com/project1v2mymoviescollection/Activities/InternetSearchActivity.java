@@ -41,7 +41,7 @@ public class InternetSearchActivity extends AppCompatActivity {
     private InternetMovieAdapter adapter;
     private ListView listView;
     private String t = "", r="", message="";
-    private int result=0;
+    private int result=0, p=1;
     ArrayList<MyMovie> movie = new ArrayList<>();
 
     @Override
@@ -119,7 +119,7 @@ public class InternetSearchActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Functions.addMovieFromInternet(InternetSearchActivity.this,adapter,position);
+                new Functions().addMovieFromInternet(InternetSearchActivity.this,adapter,position);
             }
         });
     }

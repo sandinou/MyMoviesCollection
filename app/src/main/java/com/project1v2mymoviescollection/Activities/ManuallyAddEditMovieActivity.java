@@ -43,7 +43,7 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
     private static final int REQUEST_TAKE_PHOTO = 1;
     private EditText title, runtime, director, writer, actors, storyLine, url;
     private TextView releaseDate;
-    private String genre1 = "", date, genre2 = "";
+    private String genre1 = "", date, genre2 = "",watched_state;
     private String imageString, toastMessage, imdbId = null;
     private Uri cameraImageUri;
     private ImageView image;
@@ -55,7 +55,7 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
     private CheckBox action, animation, adventure, comedy, drama, horror, western, thriller, sf, romance, crime, history, war, fantasy, bio;
     private MyMoviesSQLHelper myMoviesSQLHelper;
     public Cursor cursor;
-    public int currentPosition = 0, watched_state;
+    public int currentPosition = 0;
 
 
     @Override
@@ -109,10 +109,10 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
 
         if (id != -1) {
             myMoviesSQLHelper.editMovie(cursor, title, releaseDate, runtime, director, writer, genre2, actors, storyLine, url, imageString, action, animation, adventure, comedy, drama, horror, western, thriller, romance, sf, crime, history, war, fantasy, bio, image);
-            watched_state=cursor.getInt(cursor.getColumnIndex(DBConstants.WATCHED_COLUMN));
+            watched_state=cursor.getString(cursor.getColumnIndex(DBConstants.WATCHED_COLUMN));
         }
         else
-            watched_state=0;
+            watched_state="0";
 
         setTitle(title.getText().toString());
 
@@ -144,7 +144,7 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
 
                 else {
                     toastMessage = "URL empty !!";
-                    Functions.URLEmpty(ManuallyAddEditMovieActivity.this, toastMessage);
+                    new Functions().URLEmpty(ManuallyAddEditMovieActivity.this,toastMessage);
                 }
                 break;
             /*case R.id.photoIB:
@@ -169,7 +169,7 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Functions.setDate(dayOfMonth, month, year, date);
+        new Functions().setDate(dayOfMonth,month,year,date);
         releaseDate.setText(date);
     }
 
@@ -181,7 +181,7 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
                 if (title.getText().toString().trim().equals(""))
                     Toast.makeText(this, "You can't create a movie sheet without title!", Toast.LENGTH_SHORT).show();
                 else {
-                    genre1 = Functions.setGenre(action, adventure, animation, comedy, drama, horror, western, thriller, sf, romance, crime, history, war, fantasy, bio);
+                    genre1 = new Functions().setGenre(action, adventure, animation, comedy, drama, horror, western, thriller, sf, romance, crime, history, war, fantasy, bio);
                     String[] d = releaseDate.getText().toString().split(" ");
                     if (d.length == 3)
                         year = Integer.parseInt(d[2]);
@@ -195,7 +195,7 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
                         poster = ((BitmapDrawable) image.getDrawable()).getBitmap();
                     }
 
-                    imageString = Functions.encodeToBase64(poster, Bitmap.CompressFormat.JPEG, 100);
+                    imageString = new Functions().encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
                     myMoviesSQLHelper.save(ManuallyAddEditMovieActivity.this, id, title.getText().toString(), releaseDate.getText().toString(), year, runtime.getText().toString(), director.getText().toString(), writer.getText().toString(), genre1, actors.getText().toString(), storyLine.getText().toString(), url.getText().toString(), imageString, imdbId,watched_state);
                 }
                 break;
@@ -250,7 +250,7 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
 
             else {
                 toastMessage = "URL not valid !!";
-                Functions.URLEmpty(ManuallyAddEditMovieActivity.this, toastMessage);
+                new Functions().URLEmpty(ManuallyAddEditMovieActivity.this,toastMessage);
             }
             // Close progressdialog
 

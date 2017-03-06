@@ -74,7 +74,7 @@ public class ViewMovieActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (watch==false){
+                if (!watch){
                     button.setBackgroundResource(R.drawable.not_watched_red);
                     watch=true;
                     watched_state="0";
@@ -89,6 +89,16 @@ public class ViewMovieActivity extends AppCompatActivity {
                 contentValues.put(DBConstants.WATCHED_COLUMN,watched_state);
                 myMoviesSQLHelper.getWritableDatabase().update(DBConstants.TABLE_NAME, contentValues, "_id=?", new String[]{"" + id});
 
+            }
+        });
+
+        affiche.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewMovieActivity.this,PosterFullScreenActivity.class);
+                //String imageString = (String)v.getTag(R.id.afficheIV);
+                intent.putExtra(DBConstants.POSTER_COLUMN,cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN)));
+                startActivity(intent);
             }
         });
 
@@ -151,7 +161,7 @@ public class ViewMovieActivity extends AppCompatActivity {
 
             case R.id.shareItem:
                 cursor.moveToPosition(currentPosition);
-                Functions.share(this,cursor);
+                new Functions().share(this,cursor);
                 break;
         }
         return true;
