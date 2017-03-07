@@ -3,8 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:weightSum="3"
-    android:layout_height="match_parent"
-    android:background="@drawable/listview_drawable">
+    android:layout_height="match_parent">
 
 
     <ImageView
@@ -12,10 +11,9 @@
         android:layout_weight="1"
         android:contentDescription="@string/movie_poster"
         android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:background="@drawable/listview_drawable"
         android:scaleType="fitXY"
-        android:layout_gravity="top|start" />
+        android:layout_gravity="top|start"
+        android:layout_height="150dp" />
 
     <LinearLayout
         android:orientation="vertical"

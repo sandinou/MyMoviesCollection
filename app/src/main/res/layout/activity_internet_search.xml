@@ -69,6 +69,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/moviesLV"
-        android:dividerHeight="5dp" />
+        android:dividerHeight="10dp"
+        android:divider="@drawable/delimiter"
+        android:layerType="software" />
 
 </LinearLayout>
