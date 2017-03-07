@@ -1,6 +1,8 @@
 package com.project1v2mymoviescollection.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +13,7 @@ import com.project1v2mymoviescollection.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private static int TIME_OUT = 1000;
+    private static int TIME_OUT = 2000;
     private ProgressBar spinner;
 
     @Override
@@ -23,7 +25,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         spinner=(ProgressBar)findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
-
+        spinner.getIndeterminateDrawable().setColorFilter(Color.parseColor("#b30000"), android.graphics.PorterDuff.Mode.SRC_ATOP);
         spinner.setVisibility(View.VISIBLE);
 
         new Handler().postDelayed(new Runnable() {

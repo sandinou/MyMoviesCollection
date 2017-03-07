@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -90,7 +91,6 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
             db.update(DBConstants.TABLE_NAME, contentValues, "_id=?", new String[]{"" + id});
 
 
-
         if (!(context instanceof ViewMovieActivity)){
 
             Intent finish = new Intent(context, MainActivity.class);
@@ -131,7 +131,7 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
         actors.setText(cursor.getString(cursor.getColumnIndex(DBConstants.ACTORS_COLUMN)));
         story.setText(cursor.getString(cursor.getColumnIndex(DBConstants.STORY_COLUMN)));
         imageString = cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN));
-        Bitmap myBitmapAgain = returnBitmap(imageString);
+        Bitmap myBitmapAgain = new Functions().decodeBase64(imageString);
         affiche.setImageBitmap(myBitmapAgain);
         if (cursor.getString(cursor.getColumnIndex(DBConstants.WATCHED_COLUMN)).equals("0"))
             watched_Or_Not.setBackgroundResource(R.drawable.not_watched_red);
@@ -143,12 +143,6 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
         String time;
         time=new Functions().minutesInHours(cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN)));
         return time;
-    }
-
-    private Bitmap returnBitmap(String imageString){
-        Bitmap bitmap = new Functions().decodeBase64(imageString);
-        return bitmap;
-
     }
 
     /**
@@ -197,7 +191,7 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
         url.setText(cursor.getString(cursor.getColumnIndex(DBConstants.URL_COLUMN)));
         imageString = cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN));
 
-        Bitmap myBitmapAgain = returnBitmap(imageString);
+        Bitmap myBitmapAgain = new Functions().decodeBase64(imageString);
         poster.setImageBitmap(myBitmapAgain);
     }
 

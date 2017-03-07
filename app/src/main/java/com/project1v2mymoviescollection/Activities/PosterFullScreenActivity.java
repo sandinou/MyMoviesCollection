@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.project1v2mymoviescollection.Constants.And.SQL.DBConstants;
 import com.project1v2mymoviescollection.Functions.Functions;
@@ -19,6 +20,7 @@ public class PosterFullScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poster_full_screen);
+        getSupportActionBar().hide();
 
         fullPoster = (ImageView)findViewById(R.id.fullPoster);
 

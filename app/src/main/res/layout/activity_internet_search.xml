@@ -11,7 +11,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.project1v2mymoviescollection.Activities.InternetSearchActivity"
-    android:background="#ffffff">
+    android:background="@drawable/fond2">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -30,14 +30,15 @@
             android:hint="@string/enter_movie_name"
             android:layout_weight="2"
             android:gravity="center"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:textColorHint="@android:color/black" />
 
         <ImageButton
             android:layout_width="0dp"
             app:srcCompat="@drawable/internet_search"
             android:id="@+id/searchBtn"
             android:layout_weight="0.5"
-            android:background="@android:drawable/screen_background_light_transparent"
+            android:background="@drawable/watched_drawable"
             android:contentDescription="@string/search_image"
             android:scaleType="fitCenter"
             android:layout_height="100dp" />
@@ -67,6 +68,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/moviesLV" />
+        android:id="@+id/moviesLV"
+        android:dividerHeight="5dp" />
 
 </LinearLayout>

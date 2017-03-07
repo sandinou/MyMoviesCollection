@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.ContextMenu;
@@ -43,7 +44,7 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
     private static final int REQUEST_TAKE_PHOTO = 1;
     private EditText title, runtime, director, writer, actors, storyLine, url;
     private TextView releaseDate;
-    private String genre1 = "", date, genre2 = "",watched_state;
+    private String genre1 = "", date="", genre2 = "",watched_state;
     private String imageString, toastMessage, imdbId = null;
     private Uri cameraImageUri;
     private ImageView image;
@@ -125,10 +126,9 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
                 Calendar cal = Calendar.getInstance();
                 DatePickerDialog datePickerDialog = new DatePickerDialog(this, this, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
-                releaseDate.setText(date);
                 break;
-            case R.id.showIB:
 
+            case R.id.showIB:
                 View view = v;
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -144,6 +144,8 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
 
                 else {
                     toastMessage = "URL empty !!";
+                   // url.setText("http://icons.iconarchive.com/icons/itzikgur/my-seven/512/Movies-Oscar-icon.png");
+                   // new checkUrl().execute(url.getText().toString());
                     new Functions().URLEmpty(ManuallyAddEditMovieActivity.this,toastMessage);
                 }
                 break;
@@ -169,8 +171,8 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        new Functions().setDate(dayOfMonth,month,year,date);
-        releaseDate.setText(date);
+        releaseDate.setText(new Functions().setDate(dayOfMonth,month,year,date));
+
     }
 
 
@@ -187,15 +189,12 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
                         year = Integer.parseInt(d[2]);
                     else year = 0;
 
-                    if (image.getDrawable() != null)
-                        poster = ((BitmapDrawable) image.getDrawable()).getBitmap();
-
-                    else {
+                    if (image.getDrawable() == null)
                         image.setImageResource(R.drawable.movies_icon);
-                        poster = ((BitmapDrawable) image.getDrawable()).getBitmap();
-                    }
 
+                    poster = ((BitmapDrawable) image.getDrawable()).getBitmap();
                     imageString = new Functions().encodeToBase64(poster,Bitmap.CompressFormat.JPEG,100);
+
                     myMoviesSQLHelper.save(ManuallyAddEditMovieActivity.this, id, title.getText().toString(), releaseDate.getText().toString(), year, runtime.getText().toString(), director.getText().toString(), writer.getText().toString(), genre1, actors.getText().toString(), storyLine.getText().toString(), url.getText().toString(), imageString, imdbId,watched_state);
                 }
                 break;
@@ -242,8 +241,6 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
 
         @Override
         public void onPostExecute(Boolean result) {
-
-
 
             if (result)
                 Picasso.with(ManuallyAddEditMovieActivity.this).load(url.getText().toString()).into(image);

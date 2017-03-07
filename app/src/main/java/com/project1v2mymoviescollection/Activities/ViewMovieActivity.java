@@ -96,7 +96,6 @@ public class ViewMovieActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewMovieActivity.this,PosterFullScreenActivity.class);
-                //String imageString = (String)v.getTag(R.id.afficheIV);
                 intent.putExtra(DBConstants.POSTER_COLUMN,cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN)));
                 startActivity(intent);
             }
