@@ -3,14 +3,22 @@ package com.project1v2mymoviescollection.Activities;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.ContextMenu;
@@ -37,33 +45,36 @@ import com.squareup.picasso.Picasso;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Calendar;
+import java.util.jar.Manifest;
 
-
+/**
+ *  This class creates a new movie sheet with the data entered by the user
+ */
 public class ManuallyAddEditMovieActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
-    private static final int REQUEST_TAKE_PHOTO = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1, RESULT_LOAD_IMG = 2;
     private EditText title, runtime, director, writer, actors, storyLine, url;
     private TextView releaseDate;
     private String genre1 = "", date="", genre2 = "",watched_state;
     private String imageString, toastMessage, imdbId = null;
-    private Uri cameraImageUri;
     private ImageView image;
     private ImageButton show;
-    private ImageButton photo;
-    private int id, year, state_watched;
+    private int id, year;
     private Bitmap poster;
-    private ProgressDialog mProgressDialog;
     private CheckBox action, animation, adventure, comedy, drama, horror, western, thriller, sf, romance, crime, history, war, fantasy, bio;
     private MyMoviesSQLHelper myMoviesSQLHelper;
     public Cursor cursor;
     public int currentPosition = 0;
 
 
+    /**
+     * Creates the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_movie);
-
 
         title = (EditText) findViewById(R.id.titleET);
         releaseDate = (TextView) findViewById(R.id.releaseDateTV);
@@ -96,14 +107,13 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
         fantasy = (CheckBox) findViewById(R.id.fantasyCB);
         bio = (CheckBox) findViewById(R.id.biographyCB);
 
+        registerForContextMenu(show);
 
         id = getIntent().getIntExtra("_id", -1);
         currentPosition = getIntent().getIntExtra("position", 1);
         myMoviesSQLHelper = new MyMoviesSQLHelper(this);
         releaseDate.setOnClickListener(this);
         show.setOnClickListener(this);
-//        photo.setOnClickListener(this);
-
 
         cursor = myMoviesSQLHelper.getReadableDatabase().query(DBConstants.TABLE_NAME, null, DBConstants.ID_COLUMN + "=?", new String[]{" " + id}, null, null, null);
         cursor.moveToPosition(currentPosition);
@@ -116,69 +126,57 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
             watched_state="0";
 
         setTitle(title.getText().toString());
-
+        
     }
 
+    /**
+     *  Defines onClick actions
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            /**
+             * Puts a date picker to set the release date of the movie
+             */
             case R.id.releaseDateTV:
                 Calendar cal = Calendar.getInstance();
                 DatePickerDialog datePickerDialog = new DatePickerDialog(this, this, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
                 break;
-
+            /**
+             * Shows differents option to get the movie poster
+             */
             case R.id.showIB:
-                View view = v;
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
-                CheckConnection checkConnection = new CheckConnection(ManuallyAddEditMovieActivity.this);
-                if (!checkConnection.isNetworkAvailable())
-                    Toast.makeText(ManuallyAddEditMovieActivity.this, "Please connect to internet !", Toast.LENGTH_SHORT).show();
-
-                if (!url.getText().toString().trim().equals(""))
-                    new checkUrl().execute(url.getText().toString());
-
-
-                else {
-                    toastMessage = "URL empty !!";
-                   // url.setText("http://icons.iconarchive.com/icons/itzikgur/my-seven/512/Movies-Oscar-icon.png");
-                   // new checkUrl().execute(url.getText().toString());
-                    new Functions().URLEmpty(ManuallyAddEditMovieActivity.this,toastMessage);
-                }
+                openContextMenu(show);
                 break;
-            /*case R.id.photoIB:
-                Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                Bitmap bitmap;
-                try {
-                    File photo = ConstantsFunctions.createImageFile();
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(photo));
-                    cameraImageUri=Uri.fromFile(photo);
-                    url.setText(cameraImageUri.toString());
-                   // bitmap = android.provider.MediaStore.Images.Media.getBitmap()
-
-                    startActivityForResult(intent,REQUEST_TAKE_PHOTO);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;*/
         }
     }
 
-
+    /**
+     *  Defines the date from the date picker
+     * @param view
+     * @param year
+     * @param month
+     * @param dayOfMonth
+     */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         releaseDate.setText(new Functions().setDate(dayOfMonth,month,year,date));
 
     }
 
-
+    /**
+     * Defines the menu's options to be performed
+     * @param item
+     * @return true
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            /**
+             * Save the new movie sheet in database
+             */
             case R.id.saveItem:
                 if (title.getText().toString().trim().equals(""))
                     Toast.makeText(this, "You can't create a movie sheet without title!", Toast.LENGTH_SHORT).show();
@@ -206,26 +204,105 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
         return true;
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        currentPosition = ((AdapterView.AdapterContextMenuInfo) menuInfo).position;
-        getMenuInflater().inflate(R.menu.save_menu, menu);
-    }
 
+    /**
+     * Associates the menu with the layout
+     * @param menu
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_menu, menu);
         return true;
     }
 
+    /**
+     * Associates the context menu with the layout
+     * @param menu
+     * @param v
+     * @param menuInfo
+     */
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu,v,menuInfo);
+        if (v.getId()==R.id.showIB)
+            getMenuInflater().inflate(R.menu.poster_menu, menu);
+    }
 
+    /**
+     * Defines the context menu's options to be performed
+     * @param item
+     * @return super.onContextItemSelected(item)
+     */
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            /**
+             * Takes photo with the camera
+             */
+            case R.id.camera:
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null)
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                break;
+            /**
+             * Download picture from internet url
+             */
+            case R.id.url:
+                CheckConnection checkConnection = new CheckConnection(ManuallyAddEditMovieActivity.this);
+                if (!checkConnection.isNetworkAvailable())
+                    Toast.makeText(ManuallyAddEditMovieActivity.this, "Please connect to internet !", Toast.LENGTH_SHORT).show();
+                if (!url.getText().toString().trim().equals(""))
+                    new checkUrl().execute(url.getText().toString());
+                else {
+                    toastMessage = "URL empty !!";
+                    new Functions().URLEmpty(ManuallyAddEditMovieActivity.this,toastMessage);
+                }
+               break;
+            /**
+             * Picks a picture from the device pictures gallery
+             */
+            case R.id.gallery:
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                // Start the Intent
+                startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode){
+            case REQUEST_IMAGE_CAPTURE:
+                if (resultCode== RESULT_OK){
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    image.setImageBitmap(imageBitmap);
+                }
+                break;
+            case RESULT_LOAD_IMG:
+                if (resultCode == RESULT_OK && null != data) {
+                    // Get the Image from data
+                    Uri selectedImage = data.getData();
+                    Picasso.with(this).load(selectedImage).into(image);
+                } else
+                    Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
+
+    /**
+     * Checks if the entered url is valid/exist
+     */
     public class checkUrl extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
-
         @Override
         public Boolean doInBackground(String... URL) {
             String imageURL = URL[0];
@@ -241,18 +318,12 @@ public class ManuallyAddEditMovieActivity extends AppCompatActivity implements V
 
         @Override
         public void onPostExecute(Boolean result) {
-
             if (result)
                 Picasso.with(ManuallyAddEditMovieActivity.this).load(url.getText().toString()).into(image);
-
             else {
                 toastMessage = "URL not valid !!";
                 new Functions().URLEmpty(ManuallyAddEditMovieActivity.this,toastMessage);
             }
-            // Close progressdialog
-
         }
     }
-
-
 }

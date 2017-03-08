@@ -32,6 +32,10 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
         this.context = context;
     }
 
+    /**
+     * Function to create a table in database
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE "+ DBConstants.TABLE_NAME+
@@ -44,6 +48,12 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
 
     }
 
+    /**
+     * Function to upgrade database
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS" + DBConstants.TABLE_NAME);
@@ -139,6 +149,12 @@ public class MyMoviesSQLHelper  extends SQLiteOpenHelper{
             watched_Or_Not.setBackgroundResource(R.drawable.watched_red);
 
     }
+
+    /**
+     * Returns the movie runtime
+     * @param cursor
+     * @return String time
+     */
     private String getRuntime(Cursor cursor){
         String time;
         time=new Functions().minutesInHours(cursor.getString(cursor.getColumnIndex(DBConstants.RUNTIME_COLUMN)));

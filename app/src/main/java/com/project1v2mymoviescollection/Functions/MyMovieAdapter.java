@@ -20,6 +20,8 @@ import com.project1v2mymoviescollection.R;
 
 /**
  * Created by SandraMac on 24/02/2017.
+ *
+ * This class creates a custom adapter for the movies list
  */
 
 public class MyMovieAdapter extends CursorAdapter {
@@ -28,16 +30,13 @@ public class MyMovieAdapter extends CursorAdapter {
     private TextView genre;
     private TextView year;
     private ImageView poster;
- //   private ImageButton watchedView;
     private String watched;
     private MyMoviesSQLHelper myMoviesSQLHelper;
-
 
 
     public MyMovieAdapter(Context context, Cursor c) {
         super(context, c);
     }
-
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -59,7 +58,6 @@ public class MyMovieAdapter extends CursorAdapter {
 
         watchedView.setTag(R.id.imageButton2,cursor.getInt(cursor.getColumnIndex(DBConstants.ID_COLUMN)));
         poster.setTag(R.id.posterIV,cursor.getString(cursor.getColumnIndex(DBConstants.POSTER_COLUMN)));
-
 
         String y = cursor.getString(cursor.getColumnIndex(DBConstants.RELEASE_DATE_COLUMN));
         String[] Year = y.split(" ");
@@ -90,27 +88,25 @@ public class MyMovieAdapter extends CursorAdapter {
         watchedView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ContentValues contentValues = new ContentValues();
+                int id;
                 if (watched.equals("0")){
                     watchedView.setImageResource(R.drawable.watched_black);
                     watched="1";
-                    int id= (int) v.getTag(R.id.imageButton2);
-                    ContentValues contentValues = new ContentValues();
+                    id= (int) v.getTag(R.id.imageButton2);
                     contentValues.put(DBConstants.WATCHED_COLUMN,"1");
-                    myMoviesSQLHelper.getWritableDatabase().update(DBConstants.TABLE_NAME, contentValues, "_id=?", new String[]{"" + id});
                 }
                 else {
                     watchedView.setImageResource(R.drawable.not_watched_black);
                     watched="0";
-                    int id= (int) v.getTag(R.id.imageButton2);
-                    ContentValues contentValues = new ContentValues();
+                    id= (int) v.getTag(R.id.imageButton2);
                     contentValues.put(DBConstants.WATCHED_COLUMN,"0");
                     myMoviesSQLHelper.getWritableDatabase().update(DBConstants.TABLE_NAME, contentValues, "_id=?", new String[]{"" + id});
                 }
+                myMoviesSQLHelper.getWritableDatabase().update(DBConstants.TABLE_NAME, contentValues, "_id=?", new String[]{"" + id});
 
             }
         });
-
 
         poster.setOnClickListener(new View.OnClickListener() {
             @Override

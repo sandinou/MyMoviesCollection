@@ -45,29 +45,9 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:text="previous"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/button"
-            android:layout_weight="1" />
-
-        <Button
-            android:text="next"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/button2"
-            android:layout_weight="1" />
-    </LinearLayout>
-
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/moviesLV"
         android:dividerHeight="10dp"
         android:divider="@drawable/delimiter"

@@ -12,6 +12,16 @@
         android:icon="@drawable/delete1"
         app:showAsAction="ifRoom" />
 
+    <item android:title="@string/delete_only_watched_movies"
+        android:id="@+id/deleteWatchedMovies" />
+    <item android:title="@string/see_all_movies"
+        android:id="@+id/seeAll" />
+    <item android:title="@string/see_only_not_watched_movies"
+        android:id="@+id/see_nowatched_movies" />
+    <item android:title="@string/see_only_watched_movies"
+        android:id="@+id/see_watch" />
+    <item android:title="@string/search_a_movie"
+        android:id="@+id/search_movie" />
     <item android:title="@string/sort_by_name"
         android:id="@+id/sortbyname" />
     <item android:id="@+id/sort_from_newest_to_oldest"
@@ -21,7 +31,7 @@
     <item android:title="@string/exit_from_the_app"
         android:id="@+id/exit"
         android:icon="@drawable/exit_button"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <!--
        <item android:title="@string/search"
            android:id="@+id/search"

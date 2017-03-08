@@ -44,7 +44,6 @@ public class Functions {
     }
 
 
-
     /**
      * Function to set the checkboxes state from ManuallyAddEditMovieActivity or from InternetAddActivity
      * @param genre
@@ -118,7 +117,7 @@ public class Functions {
      * @param war
      * @param fantasy
      * @param bio
-     * @return
+     * @return String genre
      */
     public String setGenre(CheckBox action, CheckBox adventure, CheckBox animation, CheckBox comedy, CheckBox drama, CheckBox horror, CheckBox western, CheckBox thriller, CheckBox sf,
                                   CheckBox romance, CheckBox crime, CheckBox history, CheckBox war, CheckBox fantasy, CheckBox bio) {
@@ -188,7 +187,7 @@ public class Functions {
     /**
      * Function to set the month in the releaseDate for InternetAddActivity
      * @param month
-     * @return new month
+     * @return String month
      */
     public String setMonth(String month){
         switch (month){
@@ -274,7 +273,7 @@ public class Functions {
     /**
      * Function to share movie's informations for ViewActivity
      * @param cursor
-     * @return info
+     * @return String URL
      */
     public String MovieInformations(Cursor cursor){
         String id = cursor.getString(cursor.getColumnIndex(DBConstants.IMDB_ID_MOVIE_COLUMN));
@@ -296,6 +295,14 @@ public class Functions {
     }
 
 
+    /**
+     * Defines month
+     * @param dayOfMonth
+     * @param month
+     * @param year
+     * @param date
+     * @return String date
+     */
     public String setDate(int dayOfMonth,int month, int year, String date){
         String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         String mon=MONTHS[month];
@@ -304,6 +311,11 @@ public class Functions {
         return date;
     }
 
+    /**
+     * Shows message if url is empty
+     * @param context
+     * @param message
+     */
     public void URLEmpty(Context context, String message){
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         //the default toast view group is a relativelayout
@@ -313,32 +325,16 @@ public class Functions {
         toast.show();
     }
 
+    /**
+     * Open the InternetAddActivity to save data
+     * @param context
+     * @param adapter
+     * @param position
+     */
     public void addMovieFromInternet(Context context, InternetMovieAdapter adapter, int position){
         Intent edit = new Intent(context,InternetAddActivity.class);
         edit.putExtra("id",adapter.getItem(position).getId());
         edit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(edit);
     }
-
-
-    public static void nextPage(){
-
-    }
-
-
-
-
-
-
-
-
-   /* public static File createImageFile() throws IOException{
-        String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
-        String imageFile = "JPEG_"+timeStamp+"_";
-        File photo = new File(Environment.getExternalStorageDirectory(),imageFile+".jpg");
-
-        return photo;
-    }*/
-
-
 }

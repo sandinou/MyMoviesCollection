@@ -23,6 +23,9 @@ import com.project1v2mymoviescollection.Constants.And.SQL.MyMoviesSQLHelper;
 import com.project1v2mymoviescollection.Functions.Functions;
 import com.project1v2mymoviescollection.R;
 
+/**
+ *  This class shows all the movie's informations
+ */
 public class ViewMovieActivity extends AppCompatActivity {
 
     private TextView date,runtime,director,writer,actors,genre,story;
@@ -32,12 +35,14 @@ public class ViewMovieActivity extends AppCompatActivity {
     public  int currentPosition = 0;
     private MyMoviesSQLHelper myMoviesSQLHelper;
     public Cursor cursor;
-    private ImageButton watchedIB;
     private boolean watch=true;
     private Button button;
 
 
-
+    /**
+     * Creation of the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +76,9 @@ public class ViewMovieActivity extends AppCompatActivity {
         else
             button.setBackgroundResource(R.drawable.watched_black);*/
 
+        /**
+         * Changes the movie statut to watched -> unwatched and vice versa
+         */
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +100,9 @@ public class ViewMovieActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * When click on the poster, see it on full screen
+         */
         affiche.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +114,9 @@ public class ViewMovieActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Function to return to the mainActivity
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -111,16 +125,29 @@ public class ViewMovieActivity extends AppCompatActivity {
         startActivity(finish);
     }
 
+    /**
+     * Associates the menu with the layout
+     * @param menu
+     * @param v
+     * @param menuInfo
+     */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         currentPosition = ((AdapterView.AdapterContextMenuInfo)menuInfo).position;
         getMenuInflater().inflate(R.menu.edit_delete_menu,menu);
     }
 
-
+    /**
+     * Defines the menu's options to be performed
+     * @param item
+     * @return true
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            /**
+             * Allows to edit the movie 
+             */
             case R.id.editItem:
                 cursor.moveToFirst();
                 Intent editIntent = new Intent(ViewMovieActivity.this, ManuallyAddEditMovieActivity.class);
@@ -129,6 +156,9 @@ public class ViewMovieActivity extends AppCompatActivity {
                 startActivity(editIntent);
             break;
 
+            /**
+             * Allows to delete the movie
+             */
             case R.id.deleteItem:
                 cursor.moveToPosition(currentPosition);
                 cursor.moveToFirst();
@@ -158,6 +188,9 @@ public class ViewMovieActivity extends AppCompatActivity {
                 textView.setTextSize(18);
             break;
 
+            /**
+             * Allows to share the movie's informations
+             */
             case R.id.shareItem:
                 cursor.moveToPosition(currentPosition);
                 new Functions().share(this,cursor);
@@ -166,6 +199,11 @@ public class ViewMovieActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Associates the menu with the layout
+     * @param menu
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.edit_delete_menu,menu);

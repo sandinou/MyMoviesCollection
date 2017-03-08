@@ -36,7 +36,9 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-
+/**
+ *  This class creates a new movie sheet with data from internet API
+ */
 public class InternetAddActivity extends AppCompatActivity {
 
     private EditText title, runtime, director, writer, actors, storyLine, url;
@@ -51,7 +53,10 @@ public class InternetAddActivity extends AppCompatActivity {
     private MyMoviesSQLHelper myMoviesSQLHelper;
     private int currentPosition = 0, year;
 
-
+    /**
+     * Creation of the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +101,7 @@ public class InternetAddActivity extends AppCompatActivity {
     }
 
     /**
-     *  Function who recovers the movie's ID from InternetSearchActivity
+     *  Function who recovers the movie's API_ID from InternetSearchActivity
      */
     private void getMovieID(){
         imdbID = getIntent().getStringExtra("id");
@@ -104,10 +109,16 @@ public class InternetAddActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     *  Class to download movie's information from the API
+     */
     public  class DownloadMovieInfos extends AsyncTask<Object, Object, ArrayList<String>> {
         private String URL = "http://www.omdbapi.com/?i="+ imdbID+"&plot=full";
 
+
+        /**
+         *  A progress dialog is displayed during data loading
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -123,6 +134,11 @@ public class InternetAddActivity extends AppCompatActivity {
             mProgressDialog.show();
         }
 
+        /**
+         * We retrieve all the data we need in a arraylist, using json format
+         * @param params
+         * @return the arraylist with all informations
+         */
         @Override
         protected ArrayList<String> doInBackground(Object... params) {
 
@@ -193,6 +209,10 @@ public class InternetAddActivity extends AppCompatActivity {
             return null;
         }
 
+        /**
+         * We display all the informations retrieved in the layout
+         * @param resultJSON
+         */
         @Override
         protected void onPostExecute(ArrayList<String> resultJSON) {
             super.onPostExecute(resultJSON);
@@ -205,6 +225,9 @@ public class InternetAddActivity extends AppCompatActivity {
                 actors.setText(resultJSON.get(5).toString());
                 storyLine.setText(resultJSON.get(6).toString());
 
+                /**
+                 * If the movie has no poster, defines a defaut image
+                 */
                 if (resultJSON.get(7).toString().equals("N/A")) {
                     url.setText("");
                     image.setImageResource(R.drawable.movies_icon);
@@ -215,6 +238,9 @@ public class InternetAddActivity extends AppCompatActivity {
                 }
                 genre = resultJSON.get(8).toString();
 
+                /**
+                 *  Converts genre string on checkBox status
+                 */
                 new Functions().checkedGenre(genre,action,animation,adventure,comedy,drama,horror,western,thriller,romance,sf,crime,history,war,fantasy,bio);
                 setTitle(title.getText().toString());
                 mProgressDialog.dismiss();
@@ -222,7 +248,12 @@ public class InternetAddActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     *  Associates the menu with the layout
+     * @param menu
+     * @param v
+     * @param menuInfo
+     */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         currentPosition = ((AdapterView.AdapterContextMenuInfo) menuInfo).position;
@@ -235,9 +266,17 @@ public class InternetAddActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     *  Defines the menu's options to be performed
+     * @param item
+     * @return true
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            /**
+             *  Save all the data on database
+             */
             case R.id.saveItem:
                 String[] d = releaseDate.getText().toString().split(" ");
                 if (d.length==3)
@@ -249,6 +288,9 @@ public class InternetAddActivity extends AppCompatActivity {
                 myMoviesSQLHelper.save(InternetAddActivity.this,id,title.getText().toString(),releaseDate.getText().toString(),year,runtime.getText().toString(),director.getText().toString(),writer.getText().toString(),genre,actors.getText().toString(),storyLine.getText().toString(),url.getText().toString(),imageString,imdbID,"0");
                 break;
 
+            /**
+             *  Return to the mainActivity if the user cancel its action
+             */
             case R.id.cancel:
                 Intent cancel = new Intent(InternetAddActivity.this, InternetSearchActivity.class);
                 cancel.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

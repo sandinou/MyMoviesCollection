@@ -11,11 +11,16 @@ import com.project1v2mymoviescollection.Constants.And.SQL.DBConstants;
 import com.project1v2mymoviescollection.Functions.Functions;
 import com.project1v2mymoviescollection.R;
 
+/**
+ *  This class allows to watch a picture on full screen
+ */
 public class PosterFullScreenActivity extends AppCompatActivity {
 
     private ImageView fullPoster;
-    //private int id;
 
+    /**
+     *  Creation of the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,11 +30,8 @@ public class PosterFullScreenActivity extends AppCompatActivity {
         fullPoster = (ImageView)findViewById(R.id.fullPoster);
 
         Intent intent = getIntent();
-
         String imageString = intent.getStringExtra(DBConstants.POSTER_COLUMN);
-
         Bitmap bitmap = new Functions().decodeBase64(imageString);
-
         fullPoster.setImageBitmap(bitmap);
     }
 

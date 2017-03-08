@@ -28,14 +28,6 @@ public class MyMovie {
         return genre;
     }
 
-    public MyMovie(String title, String poster, String year, String id, String genre) {
-
-        this.title = title;
-        this.poster = poster;
-        this.year = year;
-        this.id = id;
-        this.genre = genre;
-    }
 
     /**
      * Return the movie title, got from the API

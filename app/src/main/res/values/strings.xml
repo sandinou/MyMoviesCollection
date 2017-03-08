@@ -59,5 +59,13 @@
     <string name="search_image">search image</string>
     <string name="string_sort_from_oldest_to_newest" />
     <string name="watched_state">watched_state</string>
+    <string name="delete_only_watched_movies">Delete only watched Movies</string>
+    <string name="see_only_not_watched_movies">See only not watched movies</string>
+    <string name="search_a_movie">Search a movie</string>
+    <string name="see_all_movies">See all movies</string>
+    <string name="see_only_watched_movies">See only watched movies</string>
+    <string name="from_camera">From camera</string>
+    <string name="from_url">From URL</string>
+    <string name="open_gallery">Open gallery</string>
 
 </resources>
