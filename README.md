@@ -1,3 +1,5 @@
+# MyMoviesCollection
+
 With this app you can organize all your movies.
 You can search movie on web from OMDB server or you can manually add a movie with option to take photo from camera and save the picture, or from your photos library.
 
